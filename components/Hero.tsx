@@ -207,12 +207,12 @@ export default function Hero() {
       const arrow = root.current?.querySelector(".cta-arrow");
       const btn = root.current?.querySelector(".cta-btn");
       btn?.addEventListener("mouseenter", () => {
-        gsap.to(arrow, { x: 6, duration: 0.35, ease: "power2.out" });
-        gsap.to(btn, { scale: 1.04, duration: 0.35, ease: "power2.out" });
+        if (arrow) gsap.to(arrow, { x: 6, duration: 0.35, ease: "power2.out" });
+        if (btn) gsap.to(btn, { scale: 1.04, duration: 0.35, ease: "power2.out" });
       });
       btn?.addEventListener("mouseleave", () => {
-        gsap.to(arrow, { x: 0, duration: 0.35, ease: "power2.out" });
-        gsap.to(btn, { scale: 1, duration: 0.35, ease: "power2.out" });
+        if (arrow) gsap.to(arrow, { x: 0, duration: 0.35, ease: "power2.out" });
+        if (btn) gsap.to(btn, { scale: 1, duration: 0.35, ease: "power2.out" });
       });
 
       /* ── Pill hover ── */
