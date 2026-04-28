@@ -204,15 +204,14 @@ export default function Hero() {
       gsap.to(".shape-double", { y: -12, rotation: 5, duration: 5.5, repeat: -1, yoyo: true, ease: "sine.inOut" });
 
       /* ── CTA hover ── */
-      const arrow = root.current?.querySelector(".cta-arrow");
       const btn = root.current?.querySelector(".cta-btn");
       btn?.addEventListener("mouseenter", () => {
-        if (arrow) gsap.to(arrow, { x: 6, duration: 0.35, ease: "power2.out" });
-        if (btn) gsap.to(btn, { scale: 1.04, duration: 0.35, ease: "power2.out" });
+        gsap.to(".cta-arrow", { x: 6, duration: 0.35, ease: "power2.out" });
+        gsap.to(".cta-btn", { scale: 1.04, duration: 0.35, ease: "power2.out" });
       });
       btn?.addEventListener("mouseleave", () => {
-        if (arrow) gsap.to(arrow, { x: 0, duration: 0.35, ease: "power2.out" });
-        if (btn) gsap.to(btn, { scale: 1, duration: 0.35, ease: "power2.out" });
+        gsap.to(".cta-arrow", { x: 0, duration: 0.35, ease: "power2.out" });
+        gsap.to(".cta-btn", { scale: 1, duration: 0.35, ease: "power2.out" });
       });
 
       /* ── Pill hover ── */
