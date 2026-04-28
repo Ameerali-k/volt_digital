@@ -1,4 +1,5 @@
 "use client";
+// Updated fix for TS safety in GSAP animations
 
 import Image from "next/image";
 import { useLayoutEffect, useRef, useCallback, useState, useEffect } from "react";
