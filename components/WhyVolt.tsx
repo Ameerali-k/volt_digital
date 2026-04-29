@@ -108,14 +108,40 @@ export default function WhyVolt() {
       <div className="relative z-20 text-center max-w-4xl mx-auto mb-20">
         <motion.h2 
           initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          animate={isInView ? { 
+            opacity: 1, 
+            y: 0,
+            scale: [1, 1.02, 1],
+          } : { 
+            opacity: 0, 
+            y: 30,
+            scale: 1
+          }}
+          transition={{ 
+            opacity: { duration: 1 },
+            y: { duration: 1 },
+            scale: { 
+              duration: 4, 
+              repeat: Infinity, 
+              ease: "easeInOut" 
+            }
+          }}
           className="text-4xl md:text-6xl font-bold mb-6 tracking-tight text-white"
         >
           Why{" "}
-          <span className="bg-gradient-to-r from-[#1071FF] via-[#3B82F6] to-[#1071FF] bg-clip-text text-transparent">
+          <motion.span 
+            animate={{ 
+              backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+            }}
+            transition={{ 
+              duration: 5, 
+              repeat: Infinity, 
+              ease: "linear" 
+            }}
+            className="bg-gradient-to-r from-[#1071FF] via-[#3B82F6] to-[#1071FF] bg-clip-text text-transparent bg-[length:200%_auto] inline-block"
+          >
             VOLT Digital
-          </span>
+          </motion.span>
         </motion.h2>
         
         <motion.p 
