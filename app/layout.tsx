@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   description: "From marketing to systems, built to grow your business.",
 };
 
+import SmoothScroll from "@/components/ui/SmoothScroll";
+
 export default function RootLayout({
   children,
 }: {
@@ -13,7 +15,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <SmoothScroll>{children}</SmoothScroll>
+      </body>
     </html>
   );
 }
