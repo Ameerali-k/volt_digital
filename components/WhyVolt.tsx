@@ -61,9 +61,9 @@ function Card({ box, index, isInView }: { box: any, index: number, isInView: boo
         className="p-6 md:p-8 rounded-[32px] border border-white/10 bg-white/[0.03] backdrop-blur-[40px] w-[280px] md:w-[360px] shadow-2xl cursor-pointer overflow-hidden transition-all duration-500 hover:bg-white/[0.08] hover:border-white/30"
       >
         <div className="flex items-center gap-3 mb-1">
-          <span className="relative flex h-2 w-2">
+          <span className="relative flex h-3 w-3">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#1071FF] opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#1071FF]"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-[#1071FF]"></span>
           </span>
           <h3 className="text-xl md:text-2xl font-bold transition-colors duration-300 text-[#1071FF]">
             {box.title}
