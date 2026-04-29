@@ -2,6 +2,7 @@ import Hero from "@/components/Hero";
 import Services from "@/components/Services";
 import Stats from "@/components/Stats";
 import WhyVolt from "@/components/WhyVolt";
+import Methodology from "@/components/Methodology";
 
 export default function Page() {
   return (
@@ -10,6 +11,7 @@ export default function Page() {
       <Services />
       <Stats />
       <WhyVolt />
+      <Methodology />
     </main>
   );
 }
