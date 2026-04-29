@@ -187,6 +187,14 @@ export default function WhyVolt() {
                   <stop stopColor="#1071FF" />
                   <stop offset="1" stopColor="#010C19" stopOpacity="0" />
                 </linearGradient>
+                {/* Flash Gradient inspired by Growth Audit Button */}
+                <linearGradient id={`flash-grad-${box.id}`} x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="rgba(255, 255, 255, 0)" />
+                  <stop offset="30%" stopColor="rgba(255, 255, 255, 0.08)" />
+                  <stop offset="50%" stopColor="rgba(255, 255, 255, 0.8)" />
+                  <stop offset="70%" stopColor="rgba(255, 255, 255, 0.08)" />
+                  <stop offset="100%" stopColor="rgba(255, 255, 255, 0)" />
+                </linearGradient>
               </defs>
               {/* Static background path */}
               <path
@@ -213,20 +221,20 @@ export default function WhyVolt() {
               {/* Traveling Flash Passing Effect */}
               <motion.path
                 d={box.d}
-                stroke="white"
-                strokeWidth="6"
+                stroke={`url(#flash-grad-${box.id})`}
+                strokeWidth="8"
                 strokeLinecap="round"
                 initial={{ pathLength: 0, opacity: 0 }}
                 animate={isInView ? { 
-                  pathLength: [0, 0.2, 0],
+                  pathLength: [0, 0.25, 0],
                   pathOffset: [0, 1.2],
                   opacity: [0, 1, 0]
                 } : { opacity: 0 }}
                 transition={{
-                  duration: 0.8,
+                  duration: 0.6,
                   repeat: Infinity,
                   ease: "easeInOut",
-                  repeatDelay: 1.5,
+                  repeatDelay: 1.4,
                   delay: 3 + index * 0.4
                 }}
               />
