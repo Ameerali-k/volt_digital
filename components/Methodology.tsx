@@ -39,7 +39,7 @@ const STEPS = [
 function StepItem({ step, index }: { step: any; index: number }) {
   const ref = useRef(null);
   // Triggers when the item comes into the middle of the viewport
-  const isInView = useInView(ref, { once: false, margin: "-40% 0px -40% 0px" });
+  const isInView = useInView(ref, { once: true, margin: "-40% 0px -40% 0px" });
   
   return (
     <motion.div 
@@ -91,7 +91,7 @@ export default function Methodology() {
       
       {/* Decorative Geometric Banner */}
       <div 
-        className="absolute top-0 left-0 w-[80%] md:w-[40%] h-[150px] md:h-[250px] bg-[#0B132B] z-0"
+        className="absolute top-0 left-0 w-[80%] md:w-[40%] h-[150px] md:h-[250px] bg-[#010C19] z-0"
         style={{ clipPath: "polygon(0 0, 100% 0, 60% 100%, 0% 100%)" }}
       />
 
