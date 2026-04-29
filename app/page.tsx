@@ -3,6 +3,7 @@ import Services from "@/components/Services";
 import Stats from "@/components/Stats";
 import WhyVolt from "@/components/WhyVolt";
 import Methodology from "@/components/Methodology";
+import WhoWeServe from "@/components/WhoWeServe";
 
 export default function Page() {
   return (
@@ -12,6 +13,7 @@ export default function Page() {
       <Stats />
       <WhyVolt />
       <Methodology />
+      <WhoWeServe />
     </main>
   );
 }

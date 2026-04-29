@@ -92,7 +92,7 @@ export default function WhyVolt() {
   const titleWords = "Why VOLT Digital".split(" ");
 
   return (
-    <section ref={ref} className="why-volt-section relative min-h-screen flex flex-col items-center py-24 px-6 overflow-hidden bg-[#00040D]">
+    <section ref={ref} className="why-volt-section sticky top-0 z-0 min-h-screen flex flex-col items-center py-24 px-6 overflow-hidden bg-[#00040D]">
       
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
