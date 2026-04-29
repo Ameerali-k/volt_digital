@@ -87,7 +87,7 @@ function Card({ box, index, isInView }: { box: any, index: number, isInView: boo
 
 export default function WhyVolt() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
+  const isInView = useInView(ref, { once: false, amount: 0.2 });
 
   const titleWords = "Why VOLT Digital".split(" ");
 
