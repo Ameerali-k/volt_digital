@@ -122,7 +122,7 @@ export default function WhoWeServe() {
         {/* Right Column (Text Content) - Aligned within container constraints */}
         <div className="w-full lg:w-[40%] text-left px-6 lg:pl-24 order-1 lg:order-2">
           <div className="flex flex-col">
-            <h2 className="text-5xl md:text-8xl font-bold text-white mb-8 tracking-tighter whitespace-nowrap flex flex-wrap gap-x-[0.3em]">
+            <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 tracking-tight whitespace-nowrap flex flex-wrap gap-x-[0.3em]">
               {"Who".split(" ").map((word, i) => (
                 <motion.span
                   key={i}
@@ -137,11 +137,22 @@ export default function WhoWeServe() {
                 <motion.span
                   key={i}
                   initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
-                  animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 20, filter: "blur(10px)" }}
-                  transition={{ duration: 0.8, delay: 0.4 + i * 0.1, ease: [0.2, 0.65, 0.3, 0.9] }}
+                  animate={isInView 
+                    ? { 
+                        opacity: 1, 
+                        y: 0, 
+                        filter: "blur(0px)",
+                        backgroundPosition: ["0% 50%", "200% 50%"]
+                      } 
+                    : { opacity: 0, y: 20, filter: "blur(10px)" }
+                  }
+                  transition={isInView ? {
+                    opacity: { duration: 0.8, delay: 0.4 + i * 0.1, ease: [0.2, 0.65, 0.3, 0.9] },
+                    y: { duration: 0.8, delay: 0.4 + i * 0.1, ease: [0.2, 0.65, 0.3, 0.9] },
+                    filter: { duration: 0.8, delay: 0.4 + i * 0.1, ease: [0.2, 0.65, 0.3, 0.9] },
+                    backgroundPosition: { duration: 5, repeat: Infinity, ease: "linear" }
+                  } : { duration: 0.8 }}
                   className="bg-gradient-to-r from-[#1071FF] via-[#3B82F6] to-[#1071FF] bg-clip-text text-transparent bg-[length:200%_auto]"
-                  animate={{ backgroundPosition: ["0% 50%", "200% 50%"] }}
-                  transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
                 >
                   {word}
                 </motion.span>

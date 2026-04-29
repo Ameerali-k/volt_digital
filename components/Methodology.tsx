@@ -107,7 +107,7 @@ export default function Methodology() {
         {/* Left Column (Text Content) */}
         <div className="w-full lg:w-[40%] flex flex-col justify-center" ref={titleRef}>
           <div className="flex flex-col">
-            <h2 className="text-5xl md:text-7xl font-bold tracking-tighter text-[#0B132B] leading-none mb-2 flex flex-wrap gap-x-[0.3em]">
+            <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-[#0B132B] leading-none mb-2 flex flex-wrap gap-x-[0.3em]">
               {"The Growth".split(" ").map((word, i) => (
                 <motion.span
                   key={i}
@@ -119,15 +119,27 @@ export default function Methodology() {
                 </motion.span>
               ))}
             </h2>
-            <h2 className="text-5xl md:text-7xl font-bold tracking-tighter text-[#0066FF] leading-tight mb-8 flex flex-wrap gap-x-[0.3em]">
+            <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-[#0066FF] leading-tight mb-8 flex flex-wrap gap-x-[0.3em]">
               {"360 Method".split(" ").map((word, i) => (
                 <motion.span
                   key={i}
                   initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
-                  animate={isTitleInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 20, filter: "blur(10px)" }}
-                  transition={{ duration: 0.8, delay: 0.4 + i * 0.1, ease: [0.2, 0.65, 0.3, 0.9] }}
+                  animate={isTitleInView 
+                    ? { 
+                        opacity: 1, 
+                        y: 0, 
+                        filter: "blur(0px)",
+                        backgroundPosition: ["0% 50%", "200% 50%"]
+                      } 
+                    : { opacity: 0, y: 20, filter: "blur(10px)" }
+                  }
+                  transition={isTitleInView ? {
+                    opacity: { duration: 0.8, delay: 0.4 + i * 0.1, ease: [0.2, 0.65, 0.3, 0.9] },
+                    y: { duration: 0.8, delay: 0.4 + i * 0.1, ease: [0.2, 0.65, 0.3, 0.9] },
+                    filter: { duration: 0.8, delay: 0.4 + i * 0.1, ease: [0.2, 0.65, 0.3, 0.9] },
+                    backgroundPosition: { duration: 5, repeat: Infinity, ease: "linear" }
+                  } : { duration: 0.8 }}
                   className="bg-gradient-to-r from-[#0066FF] via-[#3B82F6] to-[#0066FF] bg-clip-text text-transparent bg-[length:200%_auto]"
-                  style={{ animation: "shimmer 5s linear infinite" }}
                 >
                   {word}
                 </motion.span>
@@ -143,12 +155,6 @@ export default function Methodology() {
               Getting customers is easy. Keeping them is hard. Growth360 is our proprietary framework for solving both — a 90-day operating system that joins performance marketing, operational optimization, and business strategy into a single measurable growth engine.
             </motion.p>
           </div>
-          <style jsx>{`
-            @keyframes shimmer {
-              0% { background-position: 0% 50%; }
-              100% { background-position: 200% 50%; }
-            }
-          `}</style>
         </div>
 
         {/* Right Column (Vertical Timeline) */}
