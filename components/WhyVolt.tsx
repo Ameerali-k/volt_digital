@@ -179,9 +179,12 @@ export default function WhyVolt() {
                 initial={{ pathLength: 0, opacity: 0 }}
                 animate={isInView ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
                 transition={{ 
-                  duration: 2.0, 
+                  duration: 3.0, 
                   ease: "easeInOut", 
-                  delay: 1.2 + index * 0.3 
+                  delay: 1.2 + index * 0.3,
+                  repeat: Infinity,
+                  repeatDelay: 5,
+                  repeatType: "loop"
                 }}
               />
             </svg>
