@@ -39,7 +39,7 @@ const STEPS = [
 function StepItem({ step, index }: { step: any; index: number }) {
   const ref = useRef(null);
   // Triggers when the item comes into the middle of the viewport
-  const isInView = useInView(ref, { once: false, margin: "-40% 0px -40% 0px" });
+  const isInView = useInView(ref, { once: true, margin: "-40% 0px -40% 0px" });
   
   return (
     <motion.div 
