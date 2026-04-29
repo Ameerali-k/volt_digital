@@ -45,7 +45,7 @@ export default function Methodology() {
       
       {/* Decorative Geometric Banner */}
       <div 
-        className="absolute top-0 left-0 w-[80%] md:w-[45%] h-[150px] md:h-[250px] bg-[#0B132B] z-0"
+        className="absolute top-0 left-0 w-[80%] md:w-[45%] h-[150px] md:h-[250px] bg-[#010C19] z-0"
         style={{ clipPath: "polygon(0 0, 100% 0, 60% 100%, 0% 100%)" }}
       />
 
