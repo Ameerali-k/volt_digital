@@ -55,9 +55,9 @@ function Card({ box, index, isInView }: { box: any, index: number, isInView: boo
       onMouseLeave={() => setIsHovered(false)}
     >
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
-        transition={{ delay: 1.2 + index * 0.2, duration: 0.8, ease: "easeOut" }}
+        initial={{ opacity: 0, scale: 0.9, y: 30 }}
+        animate={isInView ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.9, y: 30 }}
+        transition={{ delay: 4.45 + index * 0.15, duration: 0.6, ease: "easeOut" }}
         className="p-6 md:p-8 rounded-[32px] border border-white/10 bg-white/[0.03] backdrop-blur-[40px] w-[280px] md:w-[360px] shadow-2xl cursor-pointer overflow-hidden transition-all duration-500 hover:bg-white/[0.08] hover:border-white/30"
       >
         <div className="flex items-center gap-3 mb-1">
@@ -87,7 +87,7 @@ function Card({ box, index, isInView }: { box: any, index: number, isInView: boo
 
 export default function WhyVolt() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: false, amount: 0.2 });
+  const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   const titleWords = "Why VOLT Digital".split(" ");
 
@@ -160,9 +160,9 @@ export default function WhyVolt() {
                 initial={{ pathLength: 0, opacity: 0 }}
                 animate={isInView ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
                 transition={{ 
-                  duration: 2.0, 
+                  duration: 1.5, 
                   ease: "easeInOut", 
-                  delay: 0.8 + index * 0.3 
+                  delay: 2.5 + index * 0.15 
                 }}
               />
             </svg>
@@ -175,12 +175,12 @@ export default function WhyVolt() {
         {/* Center Logo with Spin Intro */}
         <div className="relative z-30">
           <motion.div
-            initial={{ scale: 0, opacity: 0, rotate: -180 }}
-            animate={isInView ? { scale: 1, opacity: 1, rotate: 0 } : { scale: 0, opacity: 0, rotate: -180 }}
+            initial={{ scale: 0, opacity: 0, rotate: -1080 }}
+            animate={isInView ? { scale: 1, opacity: 1, rotate: 0 } : { scale: 0, opacity: 0, rotate: -1080 }}
             transition={{ 
-              duration: 1.5, 
-              ease: [0.34, 1.56, 0.64, 1], 
-              delay: 0.4 
+              duration: 2.0, 
+              ease: "easeInOut", 
+              delay: 0.5 
             }}
             className="relative w-40 h-40 md:w-56 md:h-56"
           >
