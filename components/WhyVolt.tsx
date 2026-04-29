@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import roundLogo from "@/image/round.png";
 import whyBg from "@/image/why.png";
 
@@ -11,7 +11,7 @@ const DATA = [
     id: "v-vision",
     title: "Vision",
     description: "We start with clarity. Positioning, ideal customer, market gap, and the three-year picture — mapped before we spend a rial on media.",
-    boxClass: "top-[18px] left-[5px]",
+    boxClass: "top-[18px] left-[5px]", 
     d: "M363.365 213.288C241.686 209.357 172.563 144.823 154.23 111.791C180.258 139.909 220.607 187.288 159.607 116.788C86.1067 31.8416 33.8183 26.0152 4.8472 18.3714",
     lineClass: "bottom-1/2 right-1/2 translate-x-[20px] translate-y-[20px]",
     gradId: "grad-tl",
@@ -21,7 +21,7 @@ const DATA = [
     title: "Leverage",
     description: "We deploy the unfair advantages — performance media, automation, AI workflows — that usually live only inside enterprise marketing departments.",
     boxClass: "top-[213px] left-[1px]",
-    d: "M359.131 18.3714C330.16 26.0152 279.687 35.5698 204.316 117.468C141.759 185.443 183.72 139.909 209.748 111.791C191.415 144.823 122.292 209.357 0.613281 213.288",
+    d: "M359.131 18.3714C330.16 26.0152 279.687 35.5698 204.316 117.468C141.759 185.443 183.72 139.909 209.748 111.791C191.415 144.823 222.292 209.357 0.613281 213.288",
     lineClass: "top-1/2 right-1/2 translate-x-[20px] -translate-y-[20px]",
     gradId: "grad-bl",
   },
@@ -49,30 +49,16 @@ function Card({ box, index, isInView }: { box: any, index: number, isInView: boo
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div
+    <div 
       className={`absolute ${box.boxClass} pointer-events-auto z-40 -translate-x-1/2 -translate-y-1/2`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <motion.div
-        initial={{ opacity: 0, scale: 0.9, y: 10 }}
-        animate={isInView ? { 
-          opacity: 1, 
-          scale: 1, 
-          y: [0, -5, 0],
-          transition: {
-            delay: 1.2 + index * 0.2,
-            duration: 0.8,
-            ease: "easeOut",
-            y: {
-              delay: 2 + index * 0.2,
-              duration: 4,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }
-          }
-        } : { opacity: 0, scale: 0.9, y: 10 }}
-        className="p-6 md:p-8 rounded-[32px] border border-white/10 bg-white/[0.03] backdrop-blur-[40px] w-[280px] md:w-[360px] shadow-2xl cursor-pointer overflow-hidden transition-all duration-500 hover:bg-white/[0.08] hover:border-white/30"
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
+        transition={{ delay: 1.2 + index * 0.2, duration: 0.8, ease: "easeOut" }}
+        className="p-6 md:p-8 rounded-[20px] border border-white/10 bg-white/[0.03] backdrop-blur-[40px] w-[280px] md:w-[360px] shadow-2xl cursor-pointer overflow-hidden transition-all duration-500 hover:bg-white/[0.08] hover:border-white/30"
       >
         <div className="flex items-center gap-3 mb-1">
           <span className="relative flex h-3 w-3">
@@ -83,26 +69,82 @@ function Card({ box, index, isInView }: { box: any, index: number, isInView: boo
             {box.title}
           </h3>
         </div>
-
-        <AnimatePresence>
-          {isHovered && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.4, ease: "easeInOut" }}
-              className="overflow-hidden"
-            >
-              <p className="text-white/80 text-sm leading-relaxed font-normal mt-4 pt-4 border-t border-white/10">
-                {box.description}
-              </p>
-            </motion.div>
-          )}
-        </AnimatePresence>
+        
+        <motion.div
+          initial={false}
+          animate={{ height: isHovered ? "auto" : 0, opacity: isHovered ? 1 : 0 }}
+          transition={{ duration: 0.4, ease: "easeInOut" }}
+          className="overflow-hidden"
+        >
+          <p className="text-white/80 text-sm leading-relaxed font-normal mt-4 pt-4 border-t border-white/10">
+            {box.description}
+          </p>
+        </motion.div>
       </motion.div>
     </div>
   );
 }
+
+const AnimatedTitle = ({ isInView }: { isInView: boolean }) => {
+  const title = "Why VOLT Digital";
+  const letters = title.split("");
+
+  return (
+    <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight text-white flex justify-center flex-wrap">
+      {letters.map((letter, i) => (
+        <motion.span
+          key={i}
+          initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
+          animate={isInView ? { 
+            opacity: 1, 
+            y: [20, 0, -5, 0], 
+            filter: "blur(0px)",
+          } : { 
+            opacity: 0, 
+            y: 20, 
+            filter: "blur(10px)" 
+          }}
+          transition={{
+            opacity: { duration: 0.5, delay: i * 0.05 },
+            y: { 
+              duration: 0.8, 
+              delay: i * 0.05,
+              times: [0, 0.6, 0.8, 1]
+            },
+            filter: { duration: 0.5, delay: i * 0.05 },
+          }}
+          className={`inline-block whitespace-pre ${
+            i >= 4 ? "bg-gradient-to-r from-[#1071FF] via-[#3B82F6] to-[#1071FF] bg-clip-text text-transparent bg-[length:200%_auto]" : ""
+          }`}
+          style={i >= 4 ? { 
+            animation: "shimmer 4s linear infinite" 
+          } : {}}
+        >
+          <motion.span
+            animate={isInView ? {
+              y: [0, -8, 0],
+            } : {}}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: i * 0.1
+            }}
+            className="inline-block"
+          >
+            {letter}
+          </motion.span>
+        </motion.span>
+      ))}
+      <style jsx>{`
+        @keyframes shimmer {
+          0% { background-position: 0% 50%; }
+          100% { background-position: 200% 50%; }
+        }
+      `}</style>
+    </h2>
+  );
+};
 
 export default function WhyVolt() {
   const ref = useRef(null);
@@ -110,66 +152,28 @@ export default function WhyVolt() {
 
   return (
     <section ref={ref} className="why-volt-section relative min-h-screen flex flex-col items-center py-24 px-6 overflow-hidden bg-[#00040D]">
-
+      
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <Image
-          src={whyBg}
-          alt=""
-          fill
-          className="object-cover opacity-90"
-          priority
+        <Image 
+          src={whyBg} 
+          alt="" 
+          fill 
+          className="object-cover opacity-90" 
+          priority 
         />
         <div className="absolute inset-0 bg-black/30" />
       </div>
-
+      
       {/* Header */}
       <div className="relative z-20 text-center max-w-4xl mx-auto mb-20">
-        <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight overflow-hidden">
-          <div className="flex items-center justify-center gap-4 flex-wrap">
-            {["Why", "VOLT", "Digital"].map((word, i) => (
-              <motion.span
-                key={i}
-                initial={{ y: "100%", opacity: 0 }}
-                animate={isInView ? { y: 0, opacity: 1 } : { y: "100%", opacity: 0 }}
-                transition={{
-                  duration: 0.8,
-                  delay: 0.2 + i * 0.15,
-                  ease: [0.33, 1, 0.68, 1]
-                }}
-                className={`inline-block ${
-                  word !== "Why" 
-                    ? "bg-gradient-to-r from-[#1071FF] to-[#0A4BB3] bg-clip-text text-transparent" 
-                    : "text-white"
-                }`}
-              >
-                {word === "VOLT" ? (
-                  <motion.span
-                    animate={{ 
-                      textShadow: [
-                        "0 0 0px rgba(16,113,255,0)",
-                        "0 0 20px rgba(16,113,255,0.4)",
-                        "0 0 0px rgba(16,113,255,0)"
-                      ]
-                    }}
-                    transition={{ 
-                      duration: 3, 
-                      repeat: Infinity, 
-                      ease: "easeInOut" 
-                    }}
-                  >
-                    {word}
-                  </motion.span>
-                ) : word}
-              </motion.span>
-            ))}
-          </div>
-        </h2>
-        <motion.p
-          initial={{ opacity: 0, filter: "blur(10px)", y: 20 }}
-          animate={isInView ? { opacity: 1, filter: "blur(0px)", y: 0 } : { opacity: 0, filter: "blur(10px)", y: 20 }}
-          transition={{ delay: 0.8, duration: 1.2, ease: "easeOut" }}
-          className="text-white text-lg md:text-xl leading-relaxed font-normal max-w-2xl mx-auto"
+        <AnimatedTitle isInView={isInView} />
+        
+        <motion.p 
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ delay: 1.5, duration: 1.0 }}
+          className="text-white text-lg md:text-xl leading-relaxed font-normal"
         >
           We combine marketing performance, operational efficiency, and business strategy to turn ambitious SMEs into category leaders.
         </motion.p>
@@ -177,7 +181,7 @@ export default function WhyVolt() {
 
       {/* Interactive Diagram Area */}
       <div className="relative w-full max-w-7xl h-[800px] mx-auto flex items-center justify-center">
-
+        
         {/* Connection Lines */}
         {DATA.map((box, index) => (
           <div key={box.id} className={`absolute ${box.lineClass} w-[364px] h-[233px] z-10 pointer-events-none`}>
@@ -187,24 +191,7 @@ export default function WhyVolt() {
                   <stop stopColor="#1071FF" />
                   <stop offset="1" stopColor="#010C19" stopOpacity="0" />
                 </linearGradient>
-                {/* Flash Gradient inspired by Growth Audit Button */}
-                <linearGradient id={`flash-grad-${box.id}`} x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="rgba(255, 255, 255, 0)" />
-                  <stop offset="30%" stopColor="rgba(255, 255, 255, 0.08)" />
-                  <stop offset="50%" stopColor="rgba(255, 255, 255, 0.8)" />
-                  <stop offset="70%" stopColor="rgba(255, 255, 255, 0.08)" />
-                  <stop offset="100%" stopColor="rgba(255, 255, 255, 0)" />
-                </linearGradient>
               </defs>
-              {/* Static background path */}
-              <path
-                d={box.d}
-                stroke="white"
-                strokeOpacity="0.05"
-                strokeWidth="38"
-                strokeLinecap="round"
-              />
-              {/* Animated drawing path */}
               <motion.path
                 d={box.d}
                 stroke={`url(#${box.gradId})`}
@@ -212,34 +199,14 @@ export default function WhyVolt() {
                 strokeLinecap="round"
                 initial={{ pathLength: 0, opacity: 0 }}
                 animate={isInView ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
-                transition={{
-                  duration: 2.5,
-                  ease: [0.6, 0.01, -0.05, 0.95],
-                  delay: 1 + index * 0.3
-                }}
-              />
-              {/* Traveling Flash Passing Effect */}
-              <motion.path
-                d={box.d}
-                stroke={`url(#flash-grad-${box.id})`}
-                strokeWidth="8"
-                strokeLinecap="round"
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={isInView ? { 
-                  pathLength: [0, 0.25, 0],
-                  pathOffset: [0, 1.2],
-                  opacity: [0, 1, 0]
-                } : { opacity: 0 }}
-                transition={{
-                  duration: 0.6,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  repeatDelay: 1.4,
-                  delay: 3 + index * 0.4
+                transition={{ 
+                  duration: 2.0, 
+                  ease: "easeInOut", 
+                  delay: 2.0 + index * 0.3 
                 }}
               />
             </svg>
-
+            
             {/* Box placed exactly at the end of the line */}
             <Card box={box} index={index} isInView={isInView} />
           </div>
@@ -250,30 +217,18 @@ export default function WhyVolt() {
           <motion.div
             initial={{ scale: 0, opacity: 0, rotate: -180 }}
             animate={isInView ? { scale: 1, opacity: 1, rotate: 0 } : { scale: 0, opacity: 0, rotate: -180 }}
-            transition={{
-              duration: 1.5,
-              ease: [0.34, 1.56, 0.64, 1],
-              delay: 0.6
+            transition={{ 
+              duration: 1.5, 
+              ease: [0.34, 1.56, 0.64, 1], 
+              delay: 1.0 
             }}
             className="relative w-40 h-40 md:w-56 md:h-56"
           >
-            <div className="absolute inset-0 bg-[#1071FF]/40 rounded-full blur-[40px]" />
-            <motion.div
-              animate={{ 
-                scale: [1, 1.05, 1],
-                opacity: [0.8, 1, 0.8]
-              }}
-              transition={{ 
-                duration: 4, 
-                repeat: Infinity, 
-                ease: "easeInOut" 
-              }}
-              className="absolute inset-0 bg-[#1071FF]/20 rounded-full blur-[60px]"
-            />
-            <Image
-              src={roundLogo}
-              alt="VD Logo"
-              fill
+            <div className="absolute inset-0 bg-[#1071FF]/40 rounded-full blur-[40px] animate-pulse" />
+            <Image 
+              src={roundLogo} 
+              alt="VD Logo" 
+              fill 
               className="object-contain relative z-10"
               priority
             />
