@@ -21,7 +21,7 @@ const DATA = [
     title: "Leverage",
     description: "We deploy the unfair advantages — performance media, automation, AI workflows — that usually live only inside enterprise marketing departments.",
     boxClass: "top-[213px] left-[1px]",
-    d: "M359.131 18.3714C330.16 26.0152 279.687 35.5698 204.316 117.468C141.759 185.443 183.72 139.909 209.748 111.791C191.415 144.823 222.292 209.357 0.613281 213.288",
+    d: "M359.131 18.3714C330.16 26.0152 279.687 35.5698 204.316 117.468C141.759 185.443 183.72 139.909 209.748 111.791C191.415 144.823 122.292 209.357 0.613281 213.288",
     lineClass: "top-1/2 right-1/2 translate-x-[20px] -translate-y-[20px]",
     gradId: "grad-bl",
   },
@@ -85,33 +85,11 @@ function Card({ box, index, isInView }: { box: any, index: number, isInView: boo
   );
 }
 
-const WordReveal = ({ text, delay = 0, isInView, className }: { text: string; delay?: number; isInView: boolean; className?: string }) => {
-  const words = text.split(" ");
-  return (
-    <div className={`overflow-hidden flex flex-wrap justify-center ${className}`}>
-      {words.map((word, i) => (
-        <div key={i} className="overflow-hidden mr-[0.25em] last:mr-0">
-          <motion.span
-            initial={{ y: "100%" }}
-            animate={isInView ? { y: 0 } : { y: "100%" }}
-            transition={{
-              duration: 0.8,
-              delay: delay + i * 0.08,
-              ease: [0.2, 0.65, 0.3, 0.9],
-            }}
-            className="inline-block"
-          >
-            {word}
-          </motion.span>
-        </div>
-      ))}
-    </div>
-  );
-};
-
 export default function WhyVolt() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: false, amount: 0.2 });
+
+  const titleWords = "Why VOLT Digital".split(" ");
 
   return (
     <section ref={ref} className="why-volt-section relative min-h-screen flex flex-col items-center py-24 px-6 overflow-hidden bg-[#00040D]">
@@ -130,34 +108,35 @@ export default function WhyVolt() {
       
       {/* Header */}
       <div className="relative z-20 text-center max-w-4xl mx-auto mb-20">
-        <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight text-white flex flex-col items-center">
-          <div className="flex flex-wrap justify-center">
-            <WordReveal text="Why" delay={0.2} isInView={isInView} className="mr-3" />
-            <div className="overflow-hidden">
-              <motion.span
-                initial={{ y: "100%" }}
-                animate={isInView ? { 
-                  y: 0,
-                  backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"]
-                } : { y: "100%" }}
-                transition={{
-                  y: { duration: 0.8, delay: 0.4, ease: [0.2, 0.65, 0.3, 0.9] },
-                  backgroundPosition: { duration: 5, repeat: Infinity, ease: "linear" }
-                }}
-                className="bg-gradient-to-r from-[#1071FF] via-[#3B82F6] to-[#1071FF] bg-[length:200%_auto] bg-clip-text text-transparent inline-block"
-              >
-                VOLT Digital
-              </motion.span>
-            </div>
-          </div>
+        <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight text-white flex justify-center gap-x-[0.3em] flex-wrap">
+          {titleWords.map((word, i) => (
+            <motion.span
+              key={i}
+              initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
+              animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 20, filter: "blur(10px)" }}
+              transition={{ duration: 0.8, delay: 0.2 + i * 0.1, ease: [0.2, 0.65, 0.3, 0.9] }}
+              className={i === 1 || i === 2 ? "bg-gradient-to-r from-[#1071FF] via-[#3B82F6] to-[#1071FF] bg-clip-text text-transparent bg-[length:200%_auto] animate-shimmer" : ""}
+              style={i === 1 || i === 2 ? { animation: "shimmer 5s linear infinite" } : {}}
+            >
+              {word}
+            </motion.span>
+          ))}
+          <style jsx>{`
+            @keyframes shimmer {
+              0% { background-position: 0% 50%; }
+              100% { background-position: 200% 50%; }
+            }
+          `}</style>
         </h2>
         
-        <WordReveal 
-          text="We combine marketing performance, operational efficiency, and business strategy to turn ambitious SMEs into category leaders."
-          delay={0.6}
-          isInView={isInView}
-          className="text-white text-lg md:text-xl leading-relaxed font-normal max-w-3xl"
-        />
+        <motion.p 
+          initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
+          animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 10, filter: "blur(8px)" }}
+          transition={{ delay: 0.6, duration: 1.0, ease: "easeOut" }}
+          className="text-white text-lg md:text-xl leading-relaxed font-normal"
+        >
+          We combine marketing performance, operational efficiency, and business strategy to turn ambitious SMEs into category leaders.
+        </motion.p>
       </div>
 
       {/* Interactive Diagram Area */}
@@ -181,12 +160,9 @@ export default function WhyVolt() {
                 initial={{ pathLength: 0, opacity: 0 }}
                 animate={isInView ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
                 transition={{ 
-                  duration: 3.0, 
+                  duration: 2.0, 
                   ease: "easeInOut", 
-                  delay: 1.2 + index * 0.3,
-                  repeat: Infinity,
-                  repeatDelay: 5,
-                  repeatType: "loop"
+                  delay: 0.8 + index * 0.3 
                 }}
               />
             </svg>
@@ -204,7 +180,7 @@ export default function WhyVolt() {
             transition={{ 
               duration: 1.5, 
               ease: [0.34, 1.56, 0.64, 1], 
-              delay: 0.6 
+              delay: 0.4 
             }}
             className="relative w-40 h-40 md:w-56 md:h-56"
           >
