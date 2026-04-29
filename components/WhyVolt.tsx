@@ -56,8 +56,8 @@ function Card({ box, index, isInView }: { box: any, index: number, isInView: boo
     >
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
-        animate={isInView ? { opacity: 1, scale: 1 } : {}}
-        transition={{ delay: 0.9 + index * 0.1, duration: 0.5 }}
+        animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
+        transition={{ delay: 1.2 + index * 0.2, duration: 0.8, ease: "easeOut" }}
         className="p-6 md:p-8 rounded-[32px] border border-white/10 bg-white/[0.03] backdrop-blur-[40px] w-[280px] md:w-[360px] shadow-2xl cursor-pointer overflow-hidden transition-all duration-500 hover:bg-white/[0.08] hover:border-white/30"
       >
         <div className="flex items-center gap-3 mb-1">
@@ -87,7 +87,8 @@ function Card({ box, index, isInView }: { box: any, index: number, isInView: boo
 
 export default function WhyVolt() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.2 });
+  // once: false allows the animation to repeat every time it scrolls into view
+  const isInView = useInView(ref, { once: false, amount: 0.2 });
 
   return (
     <section ref={ref} className="why-volt-section relative min-h-screen flex flex-col items-center py-24 px-6 overflow-hidden bg-[#00040D]">
@@ -108,16 +109,16 @@ export default function WhyVolt() {
       <div className="relative z-20 text-center max-w-4xl mx-auto mb-20">
         <motion.h2 
           initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.2, duration: 0.8 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ delay: 0.2, duration: 1.0 }}
           className="text-4xl md:text-6xl font-bold mb-6 tracking-tight"
         >
           Why <span className="bg-gradient-to-r from-[#1071FF] to-[#0A4BB3] bg-clip-text text-transparent">VOLT Digital</span>
         </motion.h2>
         <motion.p 
           initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.4, duration: 0.8 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          transition={{ delay: 0.4, duration: 1.0 }}
           className="text-white text-lg md:text-xl leading-relaxed font-normal"
         >
           We combine marketing performance, operational efficiency, and business strategy to turn ambitious SMEs into category leaders.
@@ -143,11 +144,11 @@ export default function WhyVolt() {
                 strokeWidth="38"
                 strokeLinecap="round"
                 initial={{ pathLength: 0, opacity: 0 }}
-                animate={isInView ? { pathLength: 1, opacity: 1 } : {}}
+                animate={isInView ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
                 transition={{ 
-                  duration: 1.5, 
+                  duration: 2.0, 
                   ease: "easeInOut", 
-                  delay: 0.6 + index * 0.2 
+                  delay: 0.8 + index * 0.3 
                 }}
               />
             </svg>
@@ -161,11 +162,11 @@ export default function WhyVolt() {
         <div className="relative z-30">
           <motion.div
             initial={{ scale: 0, opacity: 0, rotate: -180 }}
-            animate={isInView ? { scale: 1, opacity: 1, rotate: 0 } : {}}
+            animate={isInView ? { scale: 1, opacity: 1, rotate: 0 } : { scale: 0, opacity: 0, rotate: -180 }}
             transition={{ 
-              duration: 1.2, 
+              duration: 1.5, 
               ease: [0.34, 1.56, 0.64, 1], 
-              delay: 0.3 
+              delay: 0.4 
             }}
             className="relative w-40 h-40 md:w-56 md:h-56"
           >
