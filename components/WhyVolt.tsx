@@ -21,7 +21,7 @@ const DATA = [
     title: "Leverage",
     description: "We deploy the unfair advantages — performance media, automation, AI workflows — that usually live only inside enterprise marketing departments.",
     boxClass: "top-[213px] left-[1px]",
-    d: "M359.131 18.3714C330.16 26.0152 279.687 35.5698 204.316 117.468C141.759 185.443 183.72 139.909 209.748 111.791C191.415 144.823 122.292 209.357 0.613281 213.288",
+    d: "M359.131 18.3714C330.16 26.0152 279.687 35.5698 204.316 117.468C141.759 185.443 183.72 139.909 209.748 111.791C191.415 144.823 222.292 209.357 0.613281 213.288",
     lineClass: "top-1/2 right-1/2 translate-x-[20px] -translate-y-[20px]",
     gradId: "grad-bl",
   },
@@ -85,9 +85,31 @@ function Card({ box, index, isInView }: { box: any, index: number, isInView: boo
   );
 }
 
+const LetterAnimation = ({ text, delay = 0, isInView }: { text: string; delay?: number; isInView: boolean }) => {
+  const letters = text.split("");
+  return (
+    <span className="inline-block">
+      {letters.map((letter, i) => (
+        <motion.span
+          key={i}
+          initial={{ opacity: 0, filter: "blur(10px)", y: 20 }}
+          animate={isInView ? { opacity: 1, filter: "blur(0px)", y: 0 } : { opacity: 0, filter: "blur(10px)", y: 20 }}
+          transition={{
+            duration: 0.8,
+            delay: delay + i * 0.05,
+            ease: [0.2, 0.65, 0.3, 0.9],
+          }}
+          className="inline-block whitespace-pre"
+        >
+          {letter}
+        </motion.span>
+      ))}
+    </span>
+  );
+};
+
 export default function WhyVolt() {
   const ref = useRef(null);
-  // once: false allows the animation to repeat every time it scrolls into view
   const isInView = useInView(ref, { once: false, amount: 0.2 });
 
   return (
@@ -107,13 +129,8 @@ export default function WhyVolt() {
       
       {/* Header */}
       <div className="relative z-20 text-center max-w-4xl mx-auto mb-20">
-        <motion.h2 
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ delay: 0.2, duration: 1.0 }}
-          className="text-4xl md:text-6xl font-bold mb-6 tracking-tight"
-        >
-          Why{" "}
+        <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight text-white">
+          <LetterAnimation text="Why " delay={0.2} isInView={isInView} />
           <motion.span 
             animate={{ 
               backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
@@ -123,15 +140,16 @@ export default function WhyVolt() {
               repeat: Infinity, 
               ease: "linear" 
             }}
-            className="bg-[length:200%_auto] bg-gradient-to-r from-[#1071FF] via-[#3B82F6] to-[#1071FF] bg-clip-text text-transparent"
+            className="bg-[length:200%_auto] bg-gradient-to-r from-[#1071FF] via-[#3B82F6] to-[#1071FF] bg-clip-text text-transparent inline-block"
           >
-            VOLT Digital
+            <LetterAnimation text="VOLT Digital" delay={0.5} isInView={isInView} />
           </motion.span>
-        </motion.h2>
+        </h2>
+        
         <motion.p 
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ delay: 0.4, duration: 1.0 }}
+          transition={{ delay: 1.2, duration: 1.0 }}
           className="text-white text-lg md:text-xl leading-relaxed font-normal"
         >
           We combine marketing performance, operational efficiency, and business strategy to turn ambitious SMEs into category leaders.
@@ -161,7 +179,7 @@ export default function WhyVolt() {
                 transition={{ 
                   duration: 2.0, 
                   ease: "easeInOut", 
-                  delay: 0.8 + index * 0.3 
+                  delay: 1.5 + index * 0.3 
                 }}
               />
             </svg>
@@ -179,7 +197,7 @@ export default function WhyVolt() {
             transition={{ 
               duration: 1.5, 
               ease: [0.34, 1.56, 0.64, 1], 
-              delay: 0.4 
+              delay: 0.8 
             }}
             className="relative w-40 h-40 md:w-56 md:h-56"
           >
