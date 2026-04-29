@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useState, useRef } from "react";
 import roundLogo from "@/image/round.png";
 import whyBg from "@/image/why.png";
@@ -21,7 +21,7 @@ const DATA = [
     title: "Leverage",
     description: "We deploy the unfair advantages — performance media, automation, AI workflows — that usually live only inside enterprise marketing departments.",
     boxClass: "top-[213px] left-[1px]",
-    d: "M359.131 18.3714C330.16 26.0152 279.687 35.5698 204.316 117.468C141.759 185.443 183.72 139.909 209.748 111.791C191.415 144.823 122.292 209.357 0.613281 213.288",
+    d: "M359.131 18.3714C330.16 26.0152 279.687 35.5698 204.316 117.468C141.759 185.443 183.72 139.909 209.748 111.791C191.415 144.823 222.292 209.357 0.613281 213.288",
     lineClass: "top-1/2 right-1/2 translate-x-[20px] -translate-y-[20px]",
     gradId: "grad-bl",
   },
@@ -55,9 +55,23 @@ function Card({ box, index, isInView }: { box: any, index: number, isInView: boo
       onMouseLeave={() => setIsHovered(false)}
     >
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
-        transition={{ delay: 1.2 + index * 0.2, duration: 0.8, ease: "easeOut" }}
+        initial={{ opacity: 0, scale: 0.9, y: 10 }}
+        animate={isInView ? { 
+          opacity: 1, 
+          scale: 1, 
+          y: [0, -5, 0],
+          transition: {
+            delay: 1.2 + index * 0.2,
+            duration: 0.8,
+            ease: "easeOut",
+            y: {
+              delay: 2 + index * 0.2,
+              duration: 4,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }
+          }
+        } : { opacity: 0, scale: 0.9, y: 10 }}
         className="p-6 md:p-8 rounded-[32px] border border-white/10 bg-white/[0.03] backdrop-blur-[40px] w-[280px] md:w-[360px] shadow-2xl cursor-pointer overflow-hidden transition-all duration-500 hover:bg-white/[0.08] hover:border-white/30"
       >
         <div className="flex items-center gap-3 mb-1">
@@ -70,16 +84,21 @@ function Card({ box, index, isInView }: { box: any, index: number, isInView: boo
           </h3>
         </div>
 
-        <motion.div
-          initial={false}
-          animate={{ height: isHovered ? "auto" : 0, opacity: isHovered ? 1 : 0 }}
-          transition={{ duration: 0.4, ease: "easeInOut" }}
-          className="overflow-hidden"
-        >
-          <p className="text-white/80 text-sm leading-relaxed font-normal mt-4 pt-4 border-t border-white/10">
-            {box.description}
-          </p>
-        </motion.div>
+        <AnimatePresence>
+          {isHovered && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
+              className="overflow-hidden"
+            >
+              <p className="text-white/80 text-sm leading-relaxed font-normal mt-4 pt-4 border-t border-white/10">
+                {box.description}
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.div>
     </div>
   );
@@ -87,7 +106,6 @@ function Card({ box, index, isInView }: { box: any, index: number, isInView: boo
 
 export default function WhyVolt() {
   const ref = useRef(null);
-  // once: false allows the animation to repeat every time it scrolls into view
   const isInView = useInView(ref, { once: false, amount: 0.2 });
 
   return (
@@ -148,10 +166,10 @@ export default function WhyVolt() {
           </div>
         </h2>
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ delay: 0.8, duration: 1.0 }}
-          className="text-white text-lg md:text-xl leading-relaxed font-normal"
+          initial={{ opacity: 0, filter: "blur(10px)", y: 20 }}
+          animate={isInView ? { opacity: 1, filter: "blur(0px)", y: 0 } : { opacity: 0, filter: "blur(10px)", y: 20 }}
+          transition={{ delay: 0.8, duration: 1.2, ease: "easeOut" }}
+          className="text-white text-lg md:text-xl leading-relaxed font-normal max-w-2xl mx-auto"
         >
           We combine marketing performance, operational efficiency, and business strategy to turn ambitious SMEs into category leaders.
         </motion.p>
@@ -170,6 +188,15 @@ export default function WhyVolt() {
                   <stop offset="1" stopColor="#010C19" stopOpacity="0" />
                 </linearGradient>
               </defs>
+              {/* Static background path */}
+              <path
+                d={box.d}
+                stroke="white"
+                strokeOpacity="0.05"
+                strokeWidth="38"
+                strokeLinecap="round"
+              />
+              {/* Animated drawing path */}
               <motion.path
                 d={box.d}
                 stroke={`url(#${box.gradId})`}
@@ -178,9 +205,28 @@ export default function WhyVolt() {
                 initial={{ pathLength: 0, opacity: 0 }}
                 animate={isInView ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
                 transition={{
-                  duration: 2.0,
+                  duration: 2.5,
+                  ease: [0.6, 0.01, -0.05, 0.95],
+                  delay: 1 + index * 0.3
+                }}
+              />
+              {/* Traveling Glow Sweep */}
+              <motion.path
+                d={box.d}
+                stroke="white"
+                strokeWidth="4"
+                strokeLinecap="round"
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={isInView ? { 
+                  pathLength: [0, 0.3, 0],
+                  pathOffset: [0, 1],
+                  opacity: [0, 0.6, 0]
+                } : { opacity: 0 }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
                   ease: "easeInOut",
-                  delay: 0.8 + index * 0.3
+                  delay: 3 + index * 0.5
                 }}
               />
             </svg>
@@ -198,11 +244,23 @@ export default function WhyVolt() {
             transition={{
               duration: 1.5,
               ease: [0.34, 1.56, 0.64, 1],
-              delay: 0.4
+              delay: 0.6
             }}
             className="relative w-40 h-40 md:w-56 md:h-56"
           >
-            <div className="absolute inset-0 bg-[#1071FF]/40 rounded-full blur-[40px] animate-pulse" />
+            <div className="absolute inset-0 bg-[#1071FF]/40 rounded-full blur-[40px]" />
+            <motion.div
+              animate={{ 
+                scale: [1, 1.05, 1],
+                opacity: [0.8, 1, 0.8]
+              }}
+              transition={{ 
+                duration: 4, 
+                repeat: Infinity, 
+                ease: "easeInOut" 
+              }}
+              className="absolute inset-0 bg-[#1071FF]/20 rounded-full blur-[60px]"
+            />
             <Image
               src={roundLogo}
               alt="VD Logo"
