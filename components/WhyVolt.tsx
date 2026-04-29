@@ -11,7 +11,7 @@ const DATA = [
     id: "v-vision",
     title: "Vision",
     description: "We start with clarity. Positioning, ideal customer, market gap, and the three-year picture — mapped before we spend a rial on media.",
-    boxClass: "top-[18px] left-[5px]",
+    boxClass: "top-[18px] left-[5px]", 
     d: "M363.365 213.288C241.686 209.357 172.563 144.823 154.23 111.791C180.258 139.909 220.607 187.288 159.607 116.788C86.1067 31.8416 33.8183 26.0152 4.8472 18.3714",
     lineClass: "bottom-1/2 right-1/2 translate-x-[20px] translate-y-[20px]",
     gradId: "grad-tl",
@@ -49,7 +49,7 @@ function Card({ box, index, isInView }: { box: any, index: number, isInView: boo
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div
+    <div 
       className={`absolute ${box.boxClass} pointer-events-auto z-40 -translate-x-1/2 -translate-y-1/2`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -69,7 +69,7 @@ function Card({ box, index, isInView }: { box: any, index: number, isInView: boo
             {box.title}
           </h3>
         </div>
-
+        
         <motion.div
           initial={false}
           animate={{ height: isHovered ? "auto" : 0, opacity: isHovered ? 1 : 0 }}
@@ -85,49 +85,82 @@ function Card({ box, index, isInView }: { box: any, index: number, isInView: boo
   );
 }
 
+const WordReveal = ({ text, delay = 0, isInView, className }: { text: string; delay?: number; isInView: boolean; className?: string }) => {
+  const words = text.split(" ");
+  return (
+    <div className={`overflow-hidden flex flex-wrap justify-center ${className}`}>
+      {words.map((word, i) => (
+        <div key={i} className="overflow-hidden mr-[0.25em] last:mr-0">
+          <motion.span
+            initial={{ y: "100%" }}
+            animate={isInView ? { y: 0 } : { y: "100%" }}
+            transition={{
+              duration: 0.8,
+              delay: delay + i * 0.08,
+              ease: [0.2, 0.65, 0.3, 0.9],
+            }}
+            className="inline-block"
+          >
+            {word}
+          </motion.span>
+        </div>
+      ))}
+    </div>
+  );
+};
+
 export default function WhyVolt() {
   const ref = useRef(null);
-  // once: false allows the animation to repeat every time it scrolls into view
   const isInView = useInView(ref, { once: false, amount: 0.2 });
 
   return (
     <section ref={ref} className="why-volt-section relative min-h-screen flex flex-col items-center py-24 px-6 overflow-hidden bg-[#00040D]">
-
+      
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <Image
-          src={whyBg}
-          alt=""
-          fill
-          className="object-cover opacity-90"
-          priority
+        <Image 
+          src={whyBg} 
+          alt="" 
+          fill 
+          className="object-cover opacity-90" 
+          priority 
         />
         <div className="absolute inset-0 bg-black/30" />
       </div>
-
+      
       {/* Header */}
       <div className="relative z-20 text-center max-w-4xl mx-auto mb-20">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ delay: 0.2, duration: 1.0 }}
-          className="text-4xl md:text-6xl font-bold mb-6 tracking-tight"
-        >
-          Why <span className="bg-gradient-to-r from-[#1071FF] to-[#0A4BB3] bg-clip-text text-transparent">VOLT Digital</span>
-        </motion.h2>
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ delay: 0.4, duration: 1.0 }}
-          className="text-white text-lg md:text-xl leading-relaxed font-normal"
-        >
-          We combine marketing performance, operational efficiency, and business strategy to turn ambitious SMEs into category leaders.
-        </motion.p>
+        <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight text-white flex flex-col items-center">
+          <div className="flex flex-wrap justify-center">
+            <WordReveal text="Why" delay={0.2} isInView={isInView} className="mr-3" />
+            <div className="overflow-hidden">
+              <motion.span
+                initial={{ y: "100%" }}
+                animate={isInView ? { y: 0 } : { y: "100%" }}
+                transition={{
+                  duration: 0.8,
+                  delay: 0.4,
+                  ease: [0.2, 0.65, 0.3, 0.9],
+                }}
+                className="bg-gradient-to-r from-[#1071FF] to-[#0A4BB3] bg-clip-text text-transparent inline-block"
+              >
+                VOLT Digital
+              </motion.span>
+            </div>
+          </div>
+        </h2>
+        
+        <WordReveal 
+          text="We combine marketing performance, operational efficiency, and business strategy to turn ambitious SMEs into category leaders."
+          delay={0.6}
+          isInView={isInView}
+          className="text-white text-lg md:text-xl leading-relaxed font-normal max-w-3xl"
+        />
       </div>
 
       {/* Interactive Diagram Area */}
       <div className="relative w-full max-w-7xl h-[800px] mx-auto flex items-center justify-center">
-
+        
         {/* Connection Lines */}
         {DATA.map((box, index) => (
           <div key={box.id} className={`absolute ${box.lineClass} w-[364px] h-[233px] z-10 pointer-events-none`}>
@@ -145,14 +178,14 @@ export default function WhyVolt() {
                 strokeLinecap="round"
                 initial={{ pathLength: 0, opacity: 0 }}
                 animate={isInView ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
-                transition={{
-                  duration: 2.0,
-                  ease: "easeInOut",
-                  delay: 0.8 + index * 0.3
+                transition={{ 
+                  duration: 2.0, 
+                  ease: "easeInOut", 
+                  delay: 1.2 + index * 0.3 
                 }}
               />
             </svg>
-
+            
             {/* Box placed exactly at the end of the line */}
             <Card box={box} index={index} isInView={isInView} />
           </div>
@@ -163,18 +196,18 @@ export default function WhyVolt() {
           <motion.div
             initial={{ scale: 0, opacity: 0, rotate: -180 }}
             animate={isInView ? { scale: 1, opacity: 1, rotate: 0 } : { scale: 0, opacity: 0, rotate: -180 }}
-            transition={{
-              duration: 1.5,
-              ease: [0.34, 1.56, 0.64, 1],
-              delay: 0.4
+            transition={{ 
+              duration: 1.5, 
+              ease: [0.34, 1.56, 0.64, 1], 
+              delay: 0.6 
             }}
             className="relative w-40 h-40 md:w-56 md:h-56"
           >
             <div className="absolute inset-0 bg-[#1071FF]/40 rounded-full blur-[40px] animate-pulse" />
-            <Image
-              src={roundLogo}
-              alt="VD Logo"
-              fill
+            <Image 
+              src={roundLogo} 
+              alt="VD Logo" 
+              fill 
               className="object-contain relative z-10"
               priority
             />
