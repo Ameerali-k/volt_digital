@@ -79,12 +79,15 @@ function StepItem({ step, index }: { step: any; index: number }) {
 
 export default function Methodology() {
   const containerRef = useRef(null);
+  const isInView = useInView(containerRef, { once: false, amount: 0.3 });
   
   // Scrub effect for the central animated line
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start center", "end center"]
   });
+
+  const titleWords = "The Growth 360 Method".split(" ");
 
   return (
     <section className="relative w-full bg-white py-32 overflow-hidden font-satoshi" ref={containerRef}>
@@ -99,22 +102,35 @@ export default function Methodology() {
         
         {/* Left Column (Text Content) */}
         <div className="w-full lg:w-[40%] flex flex-col pt-12 md:pt-20 lg:pt-0 lg:sticky lg:top-40 h-fit">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.3 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
+          <h2 className="text-5xl md:text-6xl font-bold mb-6 tracking-tight text-[#0B132B] flex gap-x-[0.3em] flex-wrap">
+            {titleWords.map((word, i) => (
+              <motion.span
+                key={i}
+                initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
+                animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 20, filter: "blur(10px)" }}
+                transition={{ duration: 0.8, delay: 0.2 + i * 0.1, ease: [0.2, 0.65, 0.3, 0.9] }}
+                className={i === 1 || i === 2 ? "bg-gradient-to-r from-[#1071FF] via-[#3B82F6] to-[#1071FF] bg-clip-text text-transparent bg-[length:200%_auto] animate-shimmer" : ""}
+                style={i === 1 || i === 2 ? { animation: "shimmer 5s linear infinite" } : {}}
+              >
+                {word}
+              </motion.span>
+            ))}
+            <style jsx>{`
+              @keyframes shimmer {
+                0% { background-position: 0% 50%; }
+                100% { background-position: 200% 50%; }
+              }
+            `}</style>
+          </h2>
+          
+          <motion.p 
+            initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
+            animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 10, filter: "blur(8px)" }}
+            transition={{ delay: 0.6, duration: 1.0, ease: "easeOut" }}
+            className="text-[#334155] text-lg leading-relaxed font-normal"
           >
-            <h2 className="text-5xl md:text-6xl font-bold text-[#0B132B] leading-tight">
-              The Growth
-            </h2>
-            <h2 className="text-5xl md:text-6xl font-bold text-[#0066FF] leading-tight mt-1">
-              360 Method
-            </h2>
-            <p className="mt-8 text-lg text-[#334155] leading-relaxed">
-              Getting customers is easy. Keeping them is hard. Growth360 is our proprietary framework for solving both — a 90-day operating system that joins performance marketing, operational optimization, and business strategy into a single measurable growth engine.
-            </p>
-          </motion.div>
+            Getting customers is easy. Keeping them is hard. Growth360 is our proprietary framework for solving both — a 90-day operating system that joins performance marketing, operational optimization, and business strategy into a single measurable growth engine.
+          </motion.p>
         </div>
 
         {/* Right Column (Vertical Timeline) */}
