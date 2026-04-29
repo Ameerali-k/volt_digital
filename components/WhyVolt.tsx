@@ -21,7 +21,7 @@ const DATA = [
     title: "Leverage",
     description: "We deploy the unfair advantages — performance media, automation, AI workflows — that usually live only inside enterprise marketing departments.",
     boxClass: "top-[213px] left-[1px]",
-    d: "M359.131 18.3714C330.16 26.0152 279.687 35.5698 204.316 117.468C141.759 185.443 183.72 139.909 209.748 111.791C191.415 144.823 222.292 209.357 0.613281 213.288",
+    d: "M359.131 18.3714C330.16 26.0152 279.687 35.5698 204.316 117.468C141.759 185.443 183.72 139.909 209.748 111.791C191.415 144.823 122.292 209.357 0.613281 213.288",
     lineClass: "top-1/2 right-1/2 translate-x-[20px] -translate-y-[20px]",
     gradId: "grad-bl",
   },
@@ -210,22 +210,23 @@ export default function WhyVolt() {
                   delay: 1 + index * 0.3
                 }}
               />
-              {/* Traveling Glow Sweep */}
+              {/* Traveling Light Passing Effect */}
               <motion.path
                 d={box.d}
                 stroke="white"
-                strokeWidth="4"
+                strokeWidth="2"
                 strokeLinecap="round"
                 initial={{ pathLength: 0, opacity: 0 }}
                 animate={isInView ? { 
-                  pathLength: [0, 0.3, 0],
+                  pathLength: [0, 0.15, 0],
                   pathOffset: [0, 1],
-                  opacity: [0, 0.6, 0]
+                  opacity: [0, 1, 0]
                 } : { opacity: 0 }}
                 transition={{
-                  duration: 3,
+                  duration: 2,
                   repeat: Infinity,
                   ease: "easeInOut",
+                  repeatDelay: 1,
                   delay: 3 + index * 0.5
                 }}
               />
