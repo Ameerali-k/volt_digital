@@ -15,7 +15,6 @@ const DATA = [
     d: "M363.365 213.288C241.686 209.357 172.563 144.823 154.23 111.791C180.258 139.909 220.607 187.288 159.607 116.788C86.1067 31.8416 33.8183 26.0152 4.8472 18.3714",
     lineClass: "bottom-1/2 right-1/2 translate-x-[20px] translate-y-[20px]",
     gradId: "grad-tl",
-    initialActive: true,
   },
   {
     id: "l-leverage",
@@ -48,7 +47,6 @@ const DATA = [
 
 function Card({ box, index, isInView }: { box: any, index: number, isInView: boolean }) {
   const [isHovered, setIsHovered] = useState(false);
-  const active = box.initialActive || isHovered;
 
   return (
     <div 
@@ -60,19 +58,21 @@ function Card({ box, index, isInView }: { box: any, index: number, isInView: boo
         initial={{ opacity: 0, scale: 0.9 }}
         animate={isInView ? { opacity: 1, scale: 1 } : {}}
         transition={{ delay: 0.9 + index * 0.1, duration: 0.5 }}
-        className={`p-6 md:p-8 rounded-[32px] border transition-all duration-500 w-[280px] md:w-[360px] shadow-2xl cursor-pointer overflow-hidden backdrop-blur-[40px]
-          ${active 
-            ? "bg-white/[0.08] border-white/30" 
-            : "bg-white/[0.03] border-white/10 hover:bg-white/[0.08] hover:border-white/30"
-          }`}
+        className="p-6 md:p-8 rounded-[32px] border border-white/10 bg-white/[0.03] backdrop-blur-[40px] w-[280px] md:w-[360px] shadow-2xl cursor-pointer overflow-hidden transition-all duration-500 hover:bg-white/[0.08] hover:border-white/30"
       >
-        <h3 className="text-xl md:text-2xl font-bold transition-colors duration-300 text-[#1071FF]">
-          {box.title}
-        </h3>
+        <div className="flex items-center gap-3 mb-1">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#1071FF] opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#1071FF]"></span>
+          </span>
+          <h3 className="text-xl md:text-2xl font-bold transition-colors duration-300 text-[#1071FF]">
+            {box.title}
+          </h3>
+        </div>
         
         <motion.div
           initial={false}
-          animate={{ height: active ? "auto" : 0, opacity: active ? 1 : 0 }}
+          animate={{ height: isHovered ? "auto" : 0, opacity: isHovered ? 1 : 0 }}
           transition={{ duration: 0.4, ease: "easeInOut" }}
           className="overflow-hidden"
         >
