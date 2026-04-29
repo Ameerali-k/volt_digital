@@ -1,8 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useInView, AnimatePresence } from "framer-motion";
-import { useState, useRef, useEffect } from "react";
+import { motion, useInView } from "framer-motion";
+import { useState, useRef } from "react";
 import roundLogo from "@/image/round.png";
 import whyBg from "@/image/why.png";
 
@@ -21,7 +21,7 @@ const DATA = [
     title: "Leverage",
     description: "We deploy the unfair advantages — performance media, automation, AI workflows — that usually live only inside enterprise marketing departments.",
     boxClass: "top-[213px] left-[1px]",
-    d: "M359.131 18.3714C330.16 26.0152 279.687 35.5698 204.316 117.468C141.759 185.443 183.72 139.909 209.748 111.791C191.415 144.823 222.292 209.357 0.613281 213.288",
+    d: "M359.131 18.3714C330.16 26.0152 279.687 35.5698 204.316 117.468C141.759 185.443 183.72 139.909 209.748 111.791C191.415 144.823 122.292 209.357 0.613281 213.288",
     lineClass: "top-1/2 right-1/2 translate-x-[20px] -translate-y-[20px]",
     gradId: "grad-bl",
   },
@@ -58,7 +58,7 @@ function Card({ box, index, isInView }: { box: any, index: number, isInView: boo
         initial={{ opacity: 0, scale: 0.9 }}
         animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
         transition={{ delay: 1.2 + index * 0.2, duration: 0.8, ease: "easeOut" }}
-        className="p-6 md:p-8 rounded-[20px] border border-white/10 bg-white/[0.03] backdrop-blur-[40px] w-[280px] md:w-[360px] shadow-2xl cursor-pointer overflow-hidden transition-all duration-500 hover:bg-white/[0.08] hover:border-white/30"
+        className="p-6 md:p-8 rounded-[12px] border border-white/10 bg-white/[0.03] backdrop-blur-[40px] w-[280px] md:w-[360px] shadow-2xl cursor-pointer overflow-hidden transition-all duration-500 hover:bg-white/[0.08] hover:border-white/30"
       >
         <div className="flex items-center gap-3 mb-1">
           <span className="relative flex h-3 w-3">
@@ -97,7 +97,7 @@ const AnimatedTitle = ({ isInView }: { isInView: boolean }) => {
           initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
           animate={isInView ? { 
             opacity: 1, 
-            y: [20, 0, -5, 0], 
+            y: 0, 
             filter: "blur(0px)",
           } : { 
             opacity: 0, 
@@ -105,20 +105,11 @@ const AnimatedTitle = ({ isInView }: { isInView: boolean }) => {
             filter: "blur(10px)" 
           }}
           transition={{
-            opacity: { duration: 0.5, delay: i * 0.05 },
-            y: { 
-              duration: 0.8, 
-              delay: i * 0.05,
-              times: [0, 0.6, 0.8, 1]
-            },
-            filter: { duration: 0.5, delay: i * 0.05 },
+            duration: 0.8,
+            delay: i * 0.05,
+            ease: [0.2, 0.65, 0.3, 0.9],
           }}
-          className={`inline-block whitespace-pre ${
-            i >= 4 ? "bg-gradient-to-r from-[#1071FF] via-[#3B82F6] to-[#1071FF] bg-clip-text text-transparent bg-[length:200%_auto]" : ""
-          }`}
-          style={i >= 4 ? { 
-            animation: "shimmer 4s linear infinite" 
-          } : {}}
+          className="inline-block whitespace-pre relative"
         >
           <motion.span
             animate={isInView ? {
@@ -130,7 +121,12 @@ const AnimatedTitle = ({ isInView }: { isInView: boolean }) => {
               ease: "easeInOut",
               delay: i * 0.1
             }}
-            className="inline-block"
+            className={`inline-block ${
+              i >= 4 ? "bg-gradient-to-r from-[#1071FF] via-[#3B82F6] to-[#1071FF] bg-clip-text text-transparent bg-[length:200%_auto]" : ""
+            }`}
+            style={i >= 4 ? {
+              animation: "shimmer 4s linear infinite"
+            } : {}}
           >
             {letter}
           </motion.span>
@@ -148,7 +144,7 @@ const AnimatedTitle = ({ isInView }: { isInView: boolean }) => {
 
 export default function WhyVolt() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: false, amount: 0.2 });
+  const isInView = useInView(ref, { once: false, amount: 0.1 });
 
   return (
     <section ref={ref} className="why-volt-section relative min-h-screen flex flex-col items-center py-24 px-6 overflow-hidden bg-[#00040D]">
@@ -172,7 +168,7 @@ export default function WhyVolt() {
         <motion.p 
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ delay: 1.5, duration: 1.0 }}
+          transition={{ delay: 1.2, duration: 1.0 }}
           className="text-white text-lg md:text-xl leading-relaxed font-normal"
         >
           We combine marketing performance, operational efficiency, and business strategy to turn ambitious SMEs into category leaders.
