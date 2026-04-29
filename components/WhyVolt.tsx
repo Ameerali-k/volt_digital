@@ -210,24 +210,24 @@ export default function WhyVolt() {
                   delay: 1 + index * 0.3
                 }}
               />
-              {/* Traveling Light Passing Effect */}
+              {/* Traveling Flash Passing Effect */}
               <motion.path
                 d={box.d}
                 stroke="white"
-                strokeWidth="2"
+                strokeWidth="6"
                 strokeLinecap="round"
                 initial={{ pathLength: 0, opacity: 0 }}
                 animate={isInView ? { 
-                  pathLength: [0, 0.15, 0],
-                  pathOffset: [0, 1],
+                  pathLength: [0, 0.2, 0],
+                  pathOffset: [0, 1.2],
                   opacity: [0, 1, 0]
                 } : { opacity: 0 }}
                 transition={{
-                  duration: 2,
+                  duration: 0.8,
                   repeat: Infinity,
                   ease: "easeInOut",
-                  repeatDelay: 1,
-                  delay: 3 + index * 0.5
+                  repeatDelay: 1.5,
+                  delay: 3 + index * 0.4
                 }}
               />
             </svg>
