@@ -57,7 +57,7 @@ function Card({ box, index, isInView }: { box: any, index: number, isInView: boo
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
-        transition={{ delay: 1.2 + index * 0.2, duration: 0.8, ease: "easeOut" }}
+        transition={{ delay: 0.8 + index * 0.1, duration: 0.5, ease: "easeOut" }}
         className="p-6 md:p-8 rounded-[12px] border border-white/10 bg-white/[0.03] backdrop-blur-[40px] w-[280px] md:w-[360px] shadow-2xl cursor-pointer overflow-hidden transition-all duration-500 hover:bg-white/[0.08] hover:border-white/30"
       >
         <div className="flex items-center gap-3 mb-1">
@@ -85,63 +85,6 @@ function Card({ box, index, isInView }: { box: any, index: number, isInView: boo
   );
 }
 
-const AnimatedTitle = ({ isInView }: { isInView: boolean }) => {
-  const title = "Why VOLT Digital";
-  const letters = title.split("");
-
-  return (
-    <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight text-white flex justify-center flex-wrap">
-      {letters.map((letter, i) => (
-        <motion.span
-          key={i}
-          initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
-          animate={isInView ? { 
-            opacity: 1, 
-            y: 0, 
-            filter: "blur(0px)",
-          } : { 
-            opacity: 0, 
-            y: 20, 
-            filter: "blur(10px)" 
-          }}
-          transition={{
-            duration: 0.8,
-            delay: i * 0.05,
-            ease: [0.2, 0.65, 0.3, 0.9],
-          }}
-          className="inline-block whitespace-pre relative"
-        >
-          <motion.span
-            animate={isInView ? {
-              y: [0, -8, 0],
-            } : {}}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: "easeInOut",
-              delay: i * 0.1
-            }}
-            className={`inline-block ${
-              i >= 4 ? "bg-gradient-to-r from-[#1071FF] via-[#3B82F6] to-[#1071FF] bg-clip-text text-transparent bg-[length:200%_auto]" : ""
-            }`}
-            style={i >= 4 ? {
-              animation: "shimmer 4s linear infinite"
-            } : {}}
-          >
-            {letter}
-          </motion.span>
-        </motion.span>
-      ))}
-      <style jsx>{`
-        @keyframes shimmer {
-          0% { background-position: 0% 50%; }
-          100% { background-position: 200% 50%; }
-        }
-      `}</style>
-    </h2>
-  );
-};
-
 export default function WhyVolt() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: false, amount: 0.1 });
@@ -163,12 +106,22 @@ export default function WhyVolt() {
       
       {/* Header */}
       <div className="relative z-20 text-center max-w-4xl mx-auto mb-20">
-        <AnimatedTitle isInView={isInView} />
+        <motion.h2 
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          className="text-4xl md:text-6xl font-bold mb-6 tracking-tight text-white"
+        >
+          Why{" "}
+          <span className="bg-gradient-to-r from-[#1071FF] via-[#3B82F6] to-[#1071FF] bg-clip-text text-transparent">
+            VOLT Digital
+          </span>
+        </motion.h2>
         
         <motion.p 
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ delay: 1.2, duration: 1.0 }}
+          transition={{ delay: 0.3, duration: 1.0 }}
           className="text-white text-lg md:text-xl leading-relaxed font-normal"
         >
           We combine marketing performance, operational efficiency, and business strategy to turn ambitious SMEs into category leaders.
@@ -198,7 +151,7 @@ export default function WhyVolt() {
                 transition={{ 
                   duration: 2.0, 
                   ease: "easeInOut", 
-                  delay: 2.0 + index * 0.3 
+                  delay: 0.5 + index * 0.2 
                 }}
               />
             </svg>
@@ -216,7 +169,7 @@ export default function WhyVolt() {
             transition={{ 
               duration: 1.5, 
               ease: [0.34, 1.56, 0.64, 1], 
-              delay: 1.0 
+              delay: 0.2 
             }}
             className="relative w-40 h-40 md:w-56 md:h-56"
           >
