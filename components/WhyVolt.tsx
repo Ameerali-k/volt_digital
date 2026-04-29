@@ -113,7 +113,20 @@ export default function WhyVolt() {
           transition={{ delay: 0.2, duration: 1.0 }}
           className="text-4xl md:text-6xl font-bold mb-6 tracking-tight"
         >
-          Why <span className="bg-gradient-to-r from-[#1071FF] to-[#0A4BB3] bg-clip-text text-transparent">VOLT Digital</span>
+          Why{" "}
+          <motion.span 
+            animate={{ 
+              backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+            }}
+            transition={{ 
+              duration: 4, 
+              repeat: Infinity, 
+              ease: "linear" 
+            }}
+            className="bg-[length:200%_auto] bg-gradient-to-r from-[#1071FF] via-[#3B82F6] to-[#1071FF] bg-clip-text text-transparent"
+          >
+            VOLT Digital
+          </motion.span>
         </motion.h2>
         <motion.p 
           initial={{ opacity: 0, y: 20 }}
