@@ -21,7 +21,7 @@ const DATA = [
     title: "Leverage",
     description: "We deploy the unfair advantages — performance media, automation, AI workflows — that usually live only inside enterprise marketing departments.",
     boxClass: "top-[213px] left-[1px]",
-    d: "M359.131 18.3714C330.16 26.0152 279.687 35.5698 204.316 117.468C141.759 185.443 183.72 139.909 209.748 111.791C191.415 144.823 122.292 209.357 0.613281 213.288",
+    d: "M359.131 18.3714C330.16 26.0152 279.687 35.5698 204.316 117.468C141.759 185.443 183.72 139.909 209.748 111.791C191.415 144.823 222.292 209.357 0.613281 213.288",
     lineClass: "top-1/2 right-1/2 translate-x-[20px] -translate-y-[20px]",
     gradId: "grad-bl",
   },
@@ -136,13 +136,15 @@ export default function WhyVolt() {
             <div className="overflow-hidden">
               <motion.span
                 initial={{ y: "100%" }}
-                animate={isInView ? { y: 0 } : { y: "100%" }}
+                animate={isInView ? { 
+                  y: 0,
+                  backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"]
+                } : { y: "100%" }}
                 transition={{
-                  duration: 0.8,
-                  delay: 0.4,
-                  ease: [0.2, 0.65, 0.3, 0.9],
+                  y: { duration: 0.8, delay: 0.4, ease: [0.2, 0.65, 0.3, 0.9] },
+                  backgroundPosition: { duration: 5, repeat: Infinity, ease: "linear" }
                 }}
-                className="bg-gradient-to-r from-[#1071FF] to-[#0A4BB3] bg-clip-text text-transparent inline-block"
+                className="bg-gradient-to-r from-[#1071FF] via-[#3B82F6] to-[#1071FF] bg-[length:200%_auto] bg-clip-text text-transparent inline-block"
               >
                 VOLT Digital
               </motion.span>
