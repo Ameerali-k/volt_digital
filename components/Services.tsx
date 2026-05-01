@@ -1,8 +1,10 @@
 "use client";
 
 import { useLayoutEffect, useRef, useState, useEffect } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import servicesBg from "@/image/services.png";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -113,6 +115,18 @@ export default function Services() {
               </span>
             </div>
           </div>
+        </div>
+
+        {/* Services Header Image */}
+        <div className="reveal-text mt-16 w-full rounded-[32px] overflow-hidden opacity-0 translate-y-[60px] shadow-2xl">
+          <Image
+            src={servicesBg}
+            alt="Our Services"
+            width={1400}
+            height={700}
+            className="w-full object-cover h-[480px] md:h-[600px]"
+            priority
+          />
         </div>
 
       </div>

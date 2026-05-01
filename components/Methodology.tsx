@@ -42,20 +42,19 @@ function StepItem({ step, index }: { step: any; index: number }) {
   const ref = useRef(null);
   // Re-animate every time it enters the viewport
   const isInView = useInView(ref, { once: false, amount: 0.5 });
-  
+
   return (
-    <motion.div 
-      ref={ref} 
+    <motion.div
+      ref={ref}
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
       transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.1 }}
       className={`relative flex flex-col md:flex-row items-center w-full rounded-2xl py-6 md:p-8 transition-all duration-500 hover:bg-blue-50/80 group bg-blue-50/50`}
     >
       {/* Timeline Node */}
-      <div 
-        className={`absolute left-8 md:left-1/2 -translate-x-[10px] top-10 md:top-1/2 md:-translate-y-1/2 w-[20px] h-[20px] rounded-full z-20 transition-all duration-500 ${
-          isInView ? "bg-[#0066FF] shadow-[0_0_0_8px_rgba(0,102,255,0.15)] scale-100" : "bg-gray-300 scale-75"
-        }`}
+      <div
+        className={`absolute left-8 md:left-1/2 -translate-x-[10px] top-10 md:top-1/2 md:-translate-y-1/2 w-[20px] h-[20px] rounded-full z-20 transition-all duration-500 ${isInView ? "bg-[#0066FF] shadow-[0_0_0_8px_rgba(0,102,255,0.15)] scale-100" : "bg-gray-300 scale-75"
+          }`}
       />
 
       {/* Step Card (Left side of node on desktop, top on mobile) */}
@@ -81,7 +80,7 @@ export default function Methodology() {
   const containerRef = useRef(null);
   const titleRef = useRef(null);
   const isTitleInView = useInView(titleRef, { once: false, amount: 0.3 });
-  
+
   // Scrub effect for the central animated line
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -90,63 +89,39 @@ export default function Methodology() {
 
   return (
     <section className="relative z-10 w-full bg-white py-32 md:py-48 overflow-hidden font-sans" ref={containerRef}>
-      
+
       {/* Background Graphic Asset */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-0">
-        <Image 
-          src={growthBg} 
-          alt="" 
-          fill 
-          className="object-contain object-left-top opacity-100" 
-          priority 
+        <Image
+          src={growthBg}
+          alt=""
+          fill
+          className="object-contain object-left-top opacity-100"
+          priority
         />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 flex flex-col lg:flex-row gap-20 items-center">
-        
+
         {/* Left Column (Text Content) */}
         <div className="w-full lg:w-[40%] flex flex-col justify-center" ref={titleRef}>
           <div className="flex flex-col">
-            <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-[#0B132B] leading-none mb-2 flex flex-wrap gap-x-[0.3em]">
-              {"The Growth".split(" ").map((word, i) => (
+            <div className="flex flex-wrap gap-x-[0.3em] mb-8">
+              {["The", "Growth", "360", "Method"].map((word, i) => (
                 <motion.span
                   key={i}
                   initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
-                  animate={isTitleInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 20, filter: "blur(10px)" }}
-                  transition={{ duration: 0.8, delay: 0.2 + i * 0.1, ease: [0.2, 0.65, 0.3, 0.9] }}
+                  whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  viewport={{ once: false, amount: 0.2 }}
+                  transition={{ duration: 0.8, delay: i * 0.1, ease: [0.2, 0.65, 0.3, 0.9] }}
+                  className={`text-5xl md:text-7xl font-bold tracking-tight ${i >= 1 ? "text-[#0066FF]" : "text-[#0B132B]"}`}
                 >
                   {word}
                 </motion.span>
               ))}
-            </h2>
-            <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-[#0066FF] leading-tight mb-8 flex flex-wrap gap-x-[0.3em]">
-              {"360 Method".split(" ").map((word, i) => (
-                <motion.span
-                  key={i}
-                  initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
-                  animate={isTitleInView 
-                    ? { 
-                        opacity: 1, 
-                        y: 0, 
-                        filter: "blur(0px)",
-                        backgroundPosition: ["0% 50%", "200% 50%"]
-                      } 
-                    : { opacity: 0, y: 20, filter: "blur(10px)" }
-                  }
-                  transition={isTitleInView ? {
-                    opacity: { duration: 0.8, delay: 0.4 + i * 0.1, ease: [0.2, 0.65, 0.3, 0.9] },
-                    y: { duration: 0.8, delay: 0.4 + i * 0.1, ease: [0.2, 0.65, 0.3, 0.9] },
-                    filter: { duration: 0.8, delay: 0.4 + i * 0.1, ease: [0.2, 0.65, 0.3, 0.9] },
-                    backgroundPosition: { duration: 5, repeat: Infinity, ease: "linear" }
-                  } : { duration: 0.8 }}
-                  className="bg-gradient-to-r from-[#0066FF] via-[#3B82F6] to-[#0066FF] bg-clip-text text-transparent bg-[length:200%_auto]"
-                >
-                  {word}
-                </motion.span>
-              ))}
-            </h2>
-            
-            <motion.p 
+            </div>
+
+            <motion.p
               initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
               animate={isTitleInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 10, filter: "blur(8px)" }}
               transition={{ delay: 0.7, duration: 1.0, ease: "easeOut" }}
@@ -159,12 +134,12 @@ export default function Methodology() {
 
         {/* Right Column (Vertical Timeline) */}
         <div className="w-full lg:w-[60%] relative py-10">
-          
+
           {/* Timeline Background Line (Faded) */}
           <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-[4px] bg-gray-100 md:-translate-x-1/2 rounded-full" />
-          
+
           {/* Active Glowing Line (Scrubbed on scroll) */}
-          <motion.div 
+          <motion.div
             className="absolute left-8 md:left-1/2 top-0 bottom-0 w-[4px] bg-[#0066FF] md:-translate-x-1/2 origin-top rounded-full shadow-[0_0_15px_rgba(0,102,255,0.3)]"
             style={{ scaleY: scrollYProgress }}
           />

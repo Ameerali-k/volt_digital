@@ -7,6 +7,7 @@ export const metadata: Metadata = {
 };
 
 import SmoothScroll from "@/components/ui/SmoothScroll";
+import PreloaderProvider from "@/components/PreloaderProvider";
 
 export default function RootLayout({
   children,
@@ -16,7 +17,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <SmoothScroll>{children}</SmoothScroll>
+        <PreloaderProvider>
+          <SmoothScroll>{children}</SmoothScroll>
+        </PreloaderProvider>
       </body>
     </html>
   );

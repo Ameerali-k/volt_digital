@@ -2,6 +2,7 @@
 // Updated fix for TS safety in GSAP animations
 
 import Image from "next/image";
+import Link from "next/link";
 import { useLayoutEffect, useRef, useCallback, useState, useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -142,7 +143,10 @@ export default function Hero() {
   }, []);
 
   /* ── Custom circle cursor logic ── */
+  const lastMousePos = useRef({ x: 0, y: 0 });
+
   const handleMouseMove = useCallback((e: MouseEvent) => {
+    lastMousePos.current = { x: e.clientX, y: e.clientY };
     if (!cursorRef.current) return;
     gsap.to(cursorRef.current, {
       x: e.clientX,
@@ -171,6 +175,25 @@ export default function Hero() {
       ease: "power2.in",
     });
   }, []);
+
+  // Automatically hide cursor on scroll if heading leaves the mouse area
+  useEffect(() => {
+    const handleScroll = () => {
+      // Use document.elementFromPoint to see what's under the mouse at its last known position
+      const el = document.elementFromPoint(lastMousePos.current.x, lastMousePos.current.y);
+      const isOverHeading = el?.closest(".hero-heading");
+      // Failsafe: if we've scrolled past the hero section (e.g. 800px), definitely hide it
+      const isOutOfHeroRange = window.scrollY > 800;
+      
+      if (!isOverHeading || isOutOfHeroRange) {
+        handleHeadingLeave();
+      }
+    };
+    
+    // Check more frequently during scroll for responsiveness
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [handleHeadingLeave]);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -308,12 +331,12 @@ export default function Hero() {
               <div key={item} className="menu-item-wrapper">
                 {i > 0 && <div className="menu-line" />}
                 <div className="menu-item-overflow">
-                  <a href={`#${item.toLowerCase()}`} className="menu-item" onClick={closeMenu}>
+                  <Link href={item === "SERVICES" ? "/services" : `/#${item.toLowerCase()}`} className="menu-item" onClick={closeMenu}>
                     <div className="menu-item-roll">
                       <span className="roll-text">{item}</span>
                       <span className="roll-text">{item}</span>
                     </div>
-                  </a>
+                  </Link>
                 </div>
               </div>
             ))}

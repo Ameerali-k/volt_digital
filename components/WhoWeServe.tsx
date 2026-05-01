@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import whoBg from "@/image/who_we_serve.png";
 
 // Import SVGs
@@ -52,118 +52,142 @@ const INFINITE_CATEGORIES = [...CATEGORIES, ...CATEGORIES];
 export default function WhoWeServe() {
   const containerRef = useRef(null);
   const isInView = useInView(containerRef, { once: false, amount: 0.2 });
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+
+    let animationFrameId: number;
+    let isPaused = false;
+
+    const scroll = () => {
+      if (!isPaused) {
+        scrollContainer.scrollLeft += 0.8; // Smooth auto-scroll speed
+        if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth / 2) {
+          scrollContainer.scrollLeft = 0;
+        }
+      }
+      animationFrameId = requestAnimationFrame(scroll);
+    };
+
+    const handleMouseEnter = () => { isPaused = true; };
+    const handleMouseLeave = () => { isPaused = false; };
+
+    // Support mouse wheel horizontal scroll
+    const handleWheel = (e: WheelEvent) => {
+      // If user is scrolling vertically, translate it to horizontal scroll for this container
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        e.preventDefault();
+        scrollContainer.scrollLeft += e.deltaY;
+
+        // Reset to loop if scrolled too far
+        if (scrollContainer.scrollLeft >= scrollContainer.scrollWidth / 2) {
+          scrollContainer.scrollLeft = 0;
+        } else if (scrollContainer.scrollLeft <= 0) {
+          scrollContainer.scrollLeft = scrollContainer.scrollWidth / 2;
+        }
+      }
+    };
+
+    scrollContainer.addEventListener('mouseenter', handleMouseEnter);
+    scrollContainer.addEventListener('mouseleave', handleMouseLeave);
+    scrollContainer.addEventListener('wheel', handleWheel, { passive: false });
+
+    animationFrameId = requestAnimationFrame(scroll);
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      scrollContainer.removeEventListener('mouseenter', handleMouseEnter);
+      scrollContainer.removeEventListener('mouseleave', handleMouseLeave);
+      scrollContainer.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
 
   return (
-    <section 
-      ref={containerRef} 
+    <section
+      ref={containerRef}
       className="relative min-h-screen bg-[#010C19] py-32 overflow-hidden flex items-center"
     >
       {/* Background Image Layer */}
       <div className="absolute inset-0 z-0">
-        <Image 
-          src={whoBg} 
-          alt="" 
-          fill 
-          className="object-cover opacity-100" 
-          priority 
+        <Image
+          src={whoBg}
+          alt=""
+          fill
+          className="object-cover opacity-100"
+          priority
         />
       </div>
 
       <div className="relative z-10 w-full flex flex-col lg:flex-row items-center">
-        
+
         {/* Left Column (Auto-scrolling Cards) - Bleeding to the left edge */}
-        <div className="w-full lg:w-[60%] relative order-2 lg:order-1 mt-12 lg:mt-0">
-          <div className="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]">
-            <motion.div 
+        <div className="w-full lg:w-[55%] relative order-2 lg:order-1 mt-12 lg:mt-0">
+          <div
+            ref={scrollRef}
+            className="relative w-full overflow-x-auto no-scrollbar [mask-image:linear-gradient(to_right,transparent,white_10%,white_90%,transparent)]"
+          >
+            <div
               className="flex gap-8 py-10"
-              animate={{
-                x: [0, "-50%"],
-              }}
-              transition={{
-                x: {
-                  repeat: Infinity,
-                  repeatType: "loop",
-                  duration: 30,
-                  ease: "linear",
-                },
-              }}
               style={{ width: "fit-content" }}
             >
               {INFINITE_CATEGORIES.map((cat, i) => (
                 <div
                   key={i}
-                  className="min-w-[320px] md:min-w-[420px] min-h-[500px] bg-white/[0.03] backdrop-blur-3xl border border-white/10 p-12 rounded-[50px] group/card hover:bg-white/[0.08] hover:border-white/20 transition-all duration-500 flex flex-col justify-between"
+                  className="relative p-[1.5px] rounded-[32px] bg-gradient-to-b from-[#1071FF] to-white/60 min-w-[320px] md:min-w-[420px] min-h-[500px] group/card transition-all duration-500 shadow-2xl"
                 >
-                  <div>
-                    <div className="mb-10 relative w-24 h-24 group-hover/card:scale-110 transition-transform duration-500">
-                      <Image 
-                        src={cat.icon} 
-                        alt={cat.title} 
-                        fill 
+                  <div className="h-full w-full bg-[#010C19] p-12 rounded-[32px] flex flex-col gap-10">
+                    <div className="relative w-12 h-12">
+                      <Image
+                        src={cat.icon}
+                        alt={cat.title}
+                        fill
                         className="object-contain"
                       />
                     </div>
-                    <h3 className="text-2xl md:text-4xl font-bold text-white mb-8 group-hover/card:text-[#1071FF] transition-colors duration-300 leading-tight">
-                      {cat.title}
-                    </h3>
-                    <p className="text-white/60 leading-relaxed text-base md:text-lg">
-                      {cat.description}
-                    </p>
+
+                    <div className="flex flex-col gap-8">
+                      <h3 className="text-[24px] md:text-[30px] font-bold text-[#1071FF] leading-tight">
+                        {cat.title}
+                      </h3>
+                      <p className="text-white text-[22px] leading-snug font-normal opacity-90">
+                        {cat.description}
+                      </p>
+                    </div>
                   </div>
                 </div>
               ))}
-            </motion.div>
+            </div>
           </div>
-          
+
           {/* Strong Left Edge Feather */}
           <div className="absolute inset-y-0 left-0 w-40 bg-gradient-to-r from-[#010C19] via-[#010C19]/80 to-transparent pointer-events-none z-20" />
         </div>
 
         {/* Right Column (Text Content) - Aligned within container constraints */}
-        <div className="w-full lg:w-[40%] text-left px-6 lg:pl-24 order-1 lg:order-2">
+        <div className="w-full lg:w-[45%] text-left px-6 lg:pl-24 order-1 lg:order-2">
           <div className="flex flex-col">
-            <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 tracking-tight whitespace-nowrap flex flex-wrap gap-x-[0.3em]">
-              {"Who".split(" ").map((word, i) => (
+            <div className="flex flex-wrap gap-x-[0.3em] mb-8">
+              {["Who", "We", "Serve"].map((word, i) => (
                 <motion.span
                   key={i}
                   initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
-                  animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 20, filter: "blur(10px)" }}
-                  transition={{ duration: 0.8, delay: 0.2 + i * 0.1, ease: [0.2, 0.65, 0.3, 0.9] }}
+                  whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  viewport={{ once: false, amount: 0.2 }}
+                  transition={{ duration: 0.8, delay: i * 0.1, ease: [0.2, 0.65, 0.3, 0.9] }}
+                  className={`text-5xl md:text-7xl font-bold tracking-tight ${word === "Serve" ? "text-[#1071FF]" : "text-white"}`}
                 >
                   {word}
                 </motion.span>
               ))}
-              {"We Serve".split(" ").map((word, i) => (
-                <motion.span
-                  key={i}
-                  initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
-                  animate={isInView 
-                    ? { 
-                        opacity: 1, 
-                        y: 0, 
-                        filter: "blur(0px)",
-                        backgroundPosition: ["0% 50%", "200% 50%"]
-                      } 
-                    : { opacity: 0, y: 20, filter: "blur(10px)" }
-                  }
-                  transition={isInView ? {
-                    opacity: { duration: 0.8, delay: 0.4 + i * 0.1, ease: [0.2, 0.65, 0.3, 0.9] },
-                    y: { duration: 0.8, delay: 0.4 + i * 0.1, ease: [0.2, 0.65, 0.3, 0.9] },
-                    filter: { duration: 0.8, delay: 0.4 + i * 0.1, ease: [0.2, 0.65, 0.3, 0.9] },
-                    backgroundPosition: { duration: 5, repeat: Infinity, ease: "linear" }
-                  } : { duration: 0.8 }}
-                  className="bg-gradient-to-r from-[#1071FF] via-[#3B82F6] to-[#1071FF] bg-clip-text text-transparent bg-[length:200%_auto]"
-                >
-                  {word}
-                </motion.span>
-              ))}
-            </h2>
-            
-            <motion.p 
+            </div>
+
+            <motion.p
               initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
               animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 10, filter: "blur(8px)" }}
               transition={{ delay: 0.7, duration: 1.0, ease: "easeOut" }}
-              className="text-white/80 text-xl leading-relaxed max-w-md"
+              className="text-white/80 text-lg leading-relaxed max-w-md"
             >
               We combine marketing performance, operational efficiency, and business strategy to turn ambitious SMEs into category leaders.
             </motion.p>
@@ -172,7 +196,8 @@ export default function WhoWeServe() {
 
       </div>
 
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         .no-scrollbar::-webkit-scrollbar {
           display: none;
         }

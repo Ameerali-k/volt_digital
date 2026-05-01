@@ -28,12 +28,12 @@ export default function Stats() {
     <section className="stats-section relative min-h-[600px] flex items-center justify-center py-32 px-6 overflow-hidden bg-[#00040D]">
       {/* Background Image - Matching Glance section */}
       <div className="absolute inset-0 z-0">
-        <Image 
-          src={glanceBg} 
-          alt="" 
-          fill 
-          className="object-cover opacity-100" 
-          priority 
+        <Image
+          src={glanceBg}
+          alt=""
+          fill
+          className="object-cover opacity-100"
+          priority
         />
         <div className="absolute inset-0 bg-black/30 z-0" />
       </div>
@@ -41,7 +41,7 @@ export default function Stats() {
       <div className="max-w-7xl mx-auto relative z-10 w-full">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {STATS_DATA.map((item, i) => (
-            <div 
+            <div
               key={i}
               className="stats-card p-10 py-16 rounded-[40px] border border-white/10 bg-[#0A121E]/30 backdrop-blur-xl flex flex-col items-center justify-center text-center transition-all duration-500 hover:bg-[#0A121E]/50 hover:border-white/20 group"
             >

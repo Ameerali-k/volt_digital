@@ -11,7 +11,7 @@ const DATA = [
     id: "v-vision",
     title: "Vision",
     description: "We start with clarity. Positioning, ideal customer, market gap, and the three-year picture — mapped before we spend a rial on media.",
-    boxClass: "top-[18px] left-[5px]", 
+    boxClass: "top-[18px] left-[5px]",
     d: "M363.365 213.288C241.686 209.357 172.563 144.823 154.23 111.791C180.258 139.909 220.607 187.288 159.607 116.788C86.1067 31.8416 33.8183 26.0152 4.8472 18.3714",
     lineClass: "bottom-1/2 right-1/2 translate-x-[20px] translate-y-[20px]",
     gradId: "grad-tl",
@@ -49,7 +49,7 @@ function Card({ box, index, isInView }: { box: any, index: number, isInView: boo
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div 
+    <div
       className={`absolute ${box.boxClass} pointer-events-auto z-40 -translate-x-1/2 -translate-y-1/2`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -69,7 +69,7 @@ function Card({ box, index, isInView }: { box: any, index: number, isInView: boo
             {box.title}
           </h3>
         </div>
-        
+
         <motion.div
           initial={false}
           animate={{ height: isHovered ? "auto" : 0, opacity: isHovered ? 1 : 0 }}
@@ -93,43 +93,37 @@ export default function WhyVolt() {
 
   return (
     <section ref={ref} className="why-volt-section sticky top-0 z-0 min-h-screen flex flex-col items-center py-24 px-6 overflow-hidden bg-[#00040D]">
-      
+
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <Image 
-          src={whyBg} 
-          alt="" 
-          fill 
-          className="object-cover opacity-90" 
-          priority 
+        <Image
+          src={whyBg}
+          alt=""
+          fill
+          className="object-cover opacity-90"
+          priority
         />
         <div className="absolute inset-0 bg-black/30" />
       </div>
-      
+
       {/* Header */}
       <div className="relative z-20 text-center max-w-4xl mx-auto mb-20">
-        <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight text-white flex justify-center gap-x-[0.3em] flex-wrap">
-          {titleWords.map((word, i) => (
+        <div className="flex flex-wrap justify-center gap-x-[0.3em] mb-6">
+          {["Why", "VOLT", "Digital"].map((word, i) => (
             <motion.span
               key={i}
               initial={{ opacity: 0, y: 20, filter: "blur(10px)" }}
-              animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 20, filter: "blur(10px)" }}
-              transition={{ duration: 0.8, delay: 0.2 + i * 0.1, ease: [0.2, 0.65, 0.3, 0.9] }}
-              className={i === 1 || i === 2 ? "bg-gradient-to-r from-[#1071FF] via-[#3B82F6] to-[#1071FF] bg-clip-text text-transparent bg-[length:200%_auto] animate-shimmer" : ""}
-              style={i === 1 || i === 2 ? { animation: "shimmer 5s linear infinite" } : {}}
+              whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              viewport={{ once: false, amount: 0.2 }}
+              transition={{ duration: 0.8, delay: i * 0.1, ease: [0.2, 0.65, 0.3, 0.9] }}
+              className={`text-5xl md:text-7xl font-bold tracking-tight ${word === "VOLT" ? "text-[#1071FF]" : "text-white"}`}
             >
               {word}
             </motion.span>
           ))}
-          <style jsx>{`
-            @keyframes shimmer {
-              0% { background-position: 0% 50%; }
-              100% { background-position: 200% 50%; }
-            }
-          `}</style>
-        </h2>
-        
-        <motion.p 
+        </div>
+
+        <motion.p
           initial={{ opacity: 0, y: 10, filter: "blur(8px)" }}
           animate={isInView ? { opacity: 1, y: 0, filter: "blur(0px)" } : { opacity: 0, y: 10, filter: "blur(8px)" }}
           transition={{ delay: 0.6, duration: 1.0, ease: "easeOut" }}
@@ -141,7 +135,7 @@ export default function WhyVolt() {
 
       {/* Interactive Diagram Area */}
       <div className="relative w-full max-w-7xl h-[800px] mx-auto flex items-center justify-center">
-        
+
         {/* Connection Lines */}
         {DATA.map((box, index) => (
           <div key={box.id} className={`absolute ${box.lineClass} w-[364px] h-[233px] z-10 pointer-events-none`}>
@@ -159,14 +153,14 @@ export default function WhyVolt() {
                 strokeLinecap="round"
                 initial={{ pathLength: 0, opacity: 0 }}
                 animate={isInView ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
-                transition={{ 
-                  duration: 1.5, 
-                  ease: "easeInOut", 
-                  delay: 2.5 + index * 0.15 
+                transition={{
+                  duration: 1.5,
+                  ease: "easeInOut",
+                  delay: 2.5 + index * 0.15
                 }}
               />
             </svg>
-            
+
             {/* Box placed exactly at the end of the line */}
             <Card box={box} index={index} isInView={isInView} />
           </div>
@@ -177,18 +171,18 @@ export default function WhyVolt() {
           <motion.div
             initial={{ scale: 0, opacity: 0, rotate: -1080 }}
             animate={isInView ? { scale: 1, opacity: 1, rotate: 0 } : { scale: 0, opacity: 0, rotate: -1080 }}
-            transition={{ 
-              duration: 2.0, 
-              ease: "easeInOut", 
-              delay: 0.5 
+            transition={{
+              duration: 2.0,
+              ease: "easeInOut",
+              delay: 0.5
             }}
             className="relative w-40 h-40 md:w-56 md:h-56"
           >
             <div className="absolute inset-0 bg-[#1071FF]/40 rounded-full blur-[40px] animate-pulse" />
-            <Image 
-              src={roundLogo} 
-              alt="VD Logo" 
-              fill 
+            <Image
+              src={roundLogo}
+              alt="VD Logo"
+              fill
               className="object-contain relative z-10"
               priority
             />
