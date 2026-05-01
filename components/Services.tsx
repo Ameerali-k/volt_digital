@@ -72,63 +72,97 @@ export default function Services() {
           }
         }
       );
+
+      // Container expansion effect on scroll
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: ".img-wrapper",
+          start: "top 80%",
+          end: "top 20%",
+          scrub: true,
+        }
+      });
+
+      tl.to(".img-container", {
+        maxWidth: "100%",
+        borderRadius: 0,
+        ease: "none",
+      }, 0)
+      .to(".img-wrapper", {
+        paddingLeft: 0,
+        paddingRight: 0,
+        ease: "none",
+      }, 0);
+
+      // Image zoom effect on scroll (keep this as well, but maybe slower)
+      gsap.to(".services-hero-img", {
+        scale: 1.15,
+        ease: "none",
+        scrollTrigger: {
+          trigger: ".img-wrapper",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
     }, root);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section ref={root} className="services-section bg-white py-40 px-6 overflow-hidden">
-      <div className="max-w-7xl mx-auto text-center">
+    <section ref={root} className="services-section bg-white pt-20 pb-0 overflow-hidden">
 
-        <div className="flex flex-col items-center justify-center space-y-1 font-['Satoshi']">
-          <div className="overflow-hidden">
-            <h2 className="reveal-text text-[#0A0A0B] text-4xl md:text-[64px] font-bold tracking-tight leading-[1.1] opacity-0">
-              A Performance-first Growth
-            </h2>
-          </div>
-
-          <div className="overflow-hidden">
-            <h2 className="reveal-text text-[#0A0A0B] text-4xl md:text-[64px] font-bold tracking-tight leading-[1.1] opacity-0">
-              Consultancy Helping to Scale
-            </h2>
-          </div>
-
-          <div className="flex flex-nowrap items-center justify-center gap-x-4 w-full whitespace-nowrap">
-            <div className="overflow-hidden">
-              <h2 className="reveal-text text-[#0A0A0B] text-4xl md:text-[64px] font-bold tracking-tight leading-[1.1] opacity-0">
-                Revenue Through
-              </h2>
-            </div>
-
-            <div
-              ref={textContainerRef}
-              className="reveal-text inline-flex items-center justify-center opacity-0 translate-y-[60px]"
-              style={{ willChange: "width, transform" }}
-            >
-              <span
-                ref={rotatingTextRef}
-                key={index}
-                className="text-[#1071FF] text-2xl md:text-[64px] font-bold tracking-tight leading-[1.1] whitespace-nowrap"
-              >
-                {SERVICE_TEXTS[index]}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Services Header Image */}
-        <div className="reveal-text mt-16 w-full rounded-[32px] overflow-hidden opacity-0 translate-y-[60px] shadow-2xl">
+      {/* Services Header Image & Text Overlay */}
+      <div className="img-wrapper w-full px-6 flex justify-center mt-10">
+        <div className="reveal-text img-container relative w-full max-w-7xl h-[600px] md:h-[700px] rounded-[32px] overflow-hidden opacity-0 translate-y-[60px] shadow-2xl flex items-center justify-center">
           <Image
             src={servicesBg}
             alt="Our Services"
-            width={1400}
-            height={700}
-            className="w-full object-cover h-[480px] md:h-[600px]"
+            fill
+            className="services-hero-img object-cover"
             priority
           />
-        </div>
+          <div className="absolute inset-0 bg-black/40 z-0" />
 
+          <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
+            <div className="flex flex-col items-center justify-center space-y-1 font-['Satoshi']">
+              <div className="overflow-hidden">
+                <h2 className="reveal-text text-white text-4xl md:text-[64px] font-bold tracking-tight leading-[1.1] opacity-0">
+                  A Performance-first Growth
+                </h2>
+              </div>
+
+              <div className="overflow-hidden">
+                <h2 className="reveal-text text-white text-4xl md:text-[64px] font-bold tracking-tight leading-[1.1] opacity-0">
+                  Consultancy Helping to Scale
+                </h2>
+              </div>
+
+              <div className="flex flex-wrap md:flex-nowrap items-center justify-center gap-x-4 w-full whitespace-nowrap">
+                <div className="overflow-hidden">
+                  <h2 className="reveal-text text-white text-4xl md:text-[64px] font-bold tracking-tight leading-[1.1] opacity-0">
+                    Revenue Through
+                  </h2>
+                </div>
+
+                <div
+                  ref={textContainerRef}
+                  className="reveal-text inline-flex items-center justify-center opacity-0 translate-y-[60px]"
+                  style={{ willChange: "width, transform" }}
+                >
+                  <span
+                    ref={rotatingTextRef}
+                    key={index}
+                    className="text-[#1071FF] text-3xl md:text-[64px] font-bold tracking-tight leading-[1.1] whitespace-nowrap"
+                  >
+                    {SERVICE_TEXTS[index]}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
