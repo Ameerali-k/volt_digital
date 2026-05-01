@@ -111,7 +111,7 @@ export default function Services() {
   }, []);
 
   return (
-    <section ref={root} className="services-section bg-white pt-20 pb-0 overflow-hidden">
+    <section ref={root} className="services-section bg-white py-20 overflow-hidden">
 
       {/* Services Header Image & Text Overlay */}
       <div className="img-wrapper w-full px-6 flex justify-center mt-10">
